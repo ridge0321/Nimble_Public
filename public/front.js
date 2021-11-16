@@ -87,7 +87,9 @@ socket.on("chat message", (msg) => {
 socket.on("restore message", (message, name2, time) => {
     //部屋移動先メッセ復元
     if (name == name2) {
-        restoreMessage(message, time);
+        // restoreMessage(message, time);
+        //とりあえずコメントアウト
+        
     }
     name2 = "";
 });
