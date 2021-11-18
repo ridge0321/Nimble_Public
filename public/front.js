@@ -31,21 +31,22 @@ function addprivateroom() {
     });
     $("#Channel").append(`<option>#${inputValue}</option>`);
 }
+//?
 
-function addroom() {
-    //【公開チャンネル】全ユーザーに部屋ボタンが追加される
-    let textbox = document.getElementById("roomtext");
-    let inputValue = textbox.value;
-    socket.emit("add channel", inputValue);
-    textbox.value = "";
-    $(".channel_list").prepend(
-        `<button id="bt" >#${inputValue}</button><br>`
-    );
-    $("#bt").click(inputValue, function (e) {
-        moveToRoom(inputValue);
-    });
-    $("#Channel").append(`<option>#${inputValue}</option>`);
-}
+// function addroom() {
+//     //【公開チャンネル】全ユーザーに部屋ボタンが追加される
+//     let textbox = document.getElementById("roomtext");
+//     let inputValue = textbox.value;
+//     socket.emit("add channel", inputValue);
+//     textbox.value = "";
+//     $(".channel_list").prepend(
+//         `<button id="bt" >#${inputValue}</button><br>`
+//     );
+//     $("#bt").click(inputValue, function (e) {
+//         moveToRoom(inputValue);
+//     });
+//     $("#Channel").append(`<option>#${inputValue}</option>`);
+// }
 
 function addDMroom() {
     //【DM】受信者と送信者にのみDMボタンが追加される
@@ -65,6 +66,9 @@ const form = document.getElementById("form");
 const input = document.getElementById("input");
 const toUser = document.querySelector("#input");
 const typingAlert = document.querySelector(".typing_alert");
+
+let channelBtn = document.getElementsByClassName('channel_list')[0];
+
 let name = "";
 let userarray = [];
 let room_name = "general";
@@ -222,6 +226,21 @@ const appendContent = (sender_name,text,dataType,fileUrl,timestamp)=>{
     window.scrollTo(0, document.body.scrollHeight);
 }
 
+//チャンネルリストのボタン追加
+const appendChList =(name)=>{
+
+    const chBtn=document.createElement("button");
+    const brTag=document.createElement("br");
+    chBtn.textContent="# "+name;
+    chBtn.setAttribute('onclick', "moveToRoom('"+name+"')");
+    chBtn.id=name;
+    channelBtn.appendChild(chBtn);
+    channelBtn.appendChild(brTag);
+
+};
+
+
+//使ってない
 const restoreMessage = (message, timestamp) => {
     //部屋移動したとき復元
     var time = timestamp.slice(5, -3);
@@ -250,12 +269,13 @@ socket.on("start typing", (nowTypingUser) => {
 socket.on("stop typing", () => {
     typingAlert.innerHTML = "";
 });
-socket.on("ch create", (ch) => {
-    $(".channel_list").prepend(`<button id="bt" >#${ch}</button><br>`);
-    $("#bt").click(ch, function (e) {
-        moveToRoom(ch);
-    });
-});
+
+// socket.on("ch create", (ch) => {
+//     $(".channel_list").prepend(`<button id="bt" >#${ch}</button><br>`);
+//     $("#bt").click(ch, function (e) {
+//         moveToRoom(ch);
+//     });
+// });
 
 socket.on("DM create", (dm, receiver_1, sender_1) => {
     if (name == receiver_1 || name == sender_1) {

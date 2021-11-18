@@ -26,10 +26,17 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app); //RealtimeDBに接続
-let dbRef = ref(db, "general"); //RealtimeDB内の"general"を使う
+chListLoad();
+contentAdd('general', 0); //初期設定 generalに入室
+
 // Initialize firebase
 
-let killNumber=0;
+let killNumber = 0;
+// input要素
+const fileInput = document.getElementById('file');
+//チャンネル追加フォームのボタン
+const addRoombutton = document.getElementById("addRoombutton");
+
 
 //firebaseデータ登録
 
@@ -45,7 +52,7 @@ function dataSendToDB(txt, type, fName, url) {
         timestamp: now.toLocaleString() //現在時刻をタイムスタンプの値に設定
     };
 
-    const newPostRef = push(dbRef); //ユニークKEYを生成
+    const newPostRef = push(ref(db, 'chat/' + room_name)); //ユニークKEYを生成
     set(newPostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
 }
 
@@ -61,11 +68,7 @@ $("#send").on("click", function() {
 });
 
 
-//ファイルのやりとりのあれこれ（仮）
-
-// input要素
-const fileInput = document.getElementById('file');
-
+//ファイルのやりとり
 //------------ファイル選択＆storageへアップロード------------------
 
 //以下を行う
@@ -102,8 +105,6 @@ const handleFileSelect = async() => {
     }
     // ファイル選択時にhandleFileSelectを発火
 fileInput.addEventListener('change', handleFileSelect);
-//----------------------------------------------------------
-
 
 
 //fileNameと同じ名前のファイルのリンクをfirebase storageから取得＋リンクをセットするメソッドを呼び出し
@@ -134,32 +135,75 @@ const fileUrlDownloader = async(fileName) => {
     return getUrl;
 }
 
-onChildAddCaller('general',0);//初期設定 generalに入室
+//----------------------------------------------------------
+
 
 //メッセージを追加
-function onChildAddCaller(channel,myNumber){
-    dbRef=ref(db,channel);
+function contentAdd(channel, myNumber) {
+    const dbRef = ref(db, 'chat/' + channel);
 
     onChildAdded(dbRef, function(data) {
         let log = data.val();
-        if(killNumber==myNumber){   //最新のonChildAddedか照合
+        if (killNumber == myNumber) { //最新のonChildAddedか照合
             appendContent(log.uname, log.text, log.dataType, log.fileUrl, log.timestamp); //チャット欄へデータの追加
-        }else{
-            return ;
+        } else {
+            return;
         }
-    
+
     })
 }
 
-let channelBtn = document.getElementsByClassName('channel_list')[0];
-channelBtn.addEventListener('click', reload);//部屋移動発火
 
-function reload(e) {//部屋移動
-    console.log('reload');
+channelBtn.addEventListener('click', changeRoom); //部屋移動発火
+
+function changeRoom(e) { //部屋移動
+    console.log('roomChange');
     killNumber++;
-    console.log(killNumber+":killNumber");
+    console.log(killNumber + ":killNumber");
     console.log(e.target.id);
-    onChildAddCaller(e.target.id,killNumber);
+    contentAdd(e.target.id, killNumber);
+
+}
+
+//チャンネル移動用のボタンのリストを作成
+function chListLoad() {
+    const chListRef=ref(db,'channelList');
+
+    onChildAdded(chListRef, function(data) {
+        let list = data.val();
+
+        console.log(list.channelName);
+        appendChList(list.channelName);
+
+    })
+}
+
+//チャンネル追加フォームのイベントリスナー
+addRoombutton.addEventListener('click',channelAdd);
+
+let chSet = new Set(["general","random"]);
+
+//チャンネル追加フォームの値をデータベースへ送信
+function channelAdd() {
+    
+    //【公開チャンネル】全ユーザーに部屋ボタンが追加される
+    let textbox = document.getElementById("roomtext");
+    let inputValue = textbox.value;
+    textbox.value = "";
+    console.log(inputValue);
+    
+    //チャンネル名の重複防止
+    if(!chSet.has(inputValue)){
+        chSet.add(inputValue);
+        let addCh={
+            channelName:inputValue
+        }
+        
+        const channelListRef = push(ref(db, 'channelList')); //ユニークKEYを生成
+        set(channelListRef, addCh); //"channelList"にユニークKEYをつけてオブジェクトデータを登録
+    }else{
+        appendContent("error message","そのルームは既に存在します","msg","null","null");
+    }
 
 }
 
@@ -172,8 +216,9 @@ function reload(e) {//部屋移動
 //5.送信されたデータをメッセージ・画像・ファイルに応じた方法で表示 (appendMessage等)
 
 
-//onChildAdded について
-//起動時に　①既存データを取得　②データ更新されるたびに新データを取得し処理を行う
+//onChildAdded と チャンネル移動 について
+//----------------------------------
+//起動時に ①既存データを取得 ②データ更新されるたびに新データを取得し処理を行う
 //①を利用してデータを取り込むことで部屋移動の際のデータ表示を行いたい
 //しかし、部屋移動毎に②の部分が残り待機してしまう
 //結果、複数回部屋移動を行なったのち新しく投稿を行うと、待機していた移動回数分のonChildAddedがその数だけappendContentを行い、投稿がダブる
@@ -184,3 +229,12 @@ function reload(e) {//部屋移動
 //onChildAddedCollerが呼び出される際、killNumberを渡し、これをmyNumberとして保持させる
 //appendContentが行われる際、myNumberとkillNumberの照合を行い、結果がfalseの場合appendContentは行わないようにする
 //（最新のkillNumberを保持していないonChildAddedは処理を持たない状態になる）
+
+
+//チャンネルリストの作成・更新
+//---------------------
+// window読み込み時にonChildAddedで'channelList'を参照
+// 取得したデータをボタンにしてチャンネルリストに追加
+// チャンネル追加フォームに入力された値を'channelList'に送信
+// onChildAddedがリストの変更を検知し自動で更新
+// 重複したチャンネル名が存在しないようにチャンネル追加の前にsetで検証

@@ -118,7 +118,7 @@ header > input {
   float: right;
   margin-right: 30px;
 }
-#addbutton {
+.addbutton {
   color: #a6a8b3;
   background-color: rgb(66, 64, 66);
   margin-top: 15px;

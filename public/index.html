@@ -67,7 +67,7 @@
             <summary>チャンネル</summary>
             <div class="channel_list">
               <button onclick="moveToRoom(`general`)" id="general"># general</button><br />
-              <button onclick="moveToRoom(`random`)" id="random"># random</button>
+              <button onclick="moveToRoom(`random`)" id="random"># random</button><br />
             </div>
           </details>
           <details open>
@@ -77,7 +77,8 @@
           <input
             type="button"
             name="buttonName"
-            id="addbutton"
+            class="addbutton"
+            id="addPributton"
             value="+"
             onClick="addprivateroom()"
           />
@@ -90,7 +91,8 @@
           <input
             type="button"
             name="buttonName"
-            id="addbutton"
+            class="addbutton"
+            id="addRoombutton"
             value="+"
             onClick="addroom()"
           />
@@ -103,7 +105,8 @@
           <input
             type="button"
             name="buttonName"
-            id="addbutton"
+            class="addbutton"
+            id="addDMbutton"
             value="+"
             onClick="addDMroom()"
           />
