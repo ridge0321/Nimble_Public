@@ -10,9 +10,9 @@ import {
     onChildAdded,
     remove,
     onChildRemoved,
+    onChildChanged,
 } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 // Your web app's Firebase configuration
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyDooaWi5DcWY0oKpOm5z8W0uFc-7uK3754",
@@ -29,6 +29,10 @@ const db = getDatabase(app); //RealtimeDBに接続
 chListLoad();
 contentAdd('general', 0); //初期設定 generalに入室
 
+//お試し
+
+
+
 // Initialize firebase
 
 let killNumber = 0;
@@ -36,12 +40,15 @@ let killNumber = 0;
 const fileInput = document.getElementById('file');
 //チャンネル追加フォームのボタン
 const addRoombutton = document.getElementById("addRoombutton");
-
+//チャンネルリスト重複防止用のset
+let chSet = new Set(["general", "random"]);
 
 //firebaseデータ登録
 
+
 function dataSendToDB(txt, type, fName, url) {
     let now = new Date();
+    const newPostRef = push(ref(db, 'chat/' + room_name)); //ユニークKEYを生成
     let msg = {
         uname: name,
         text: txt,
@@ -49,10 +56,17 @@ function dataSendToDB(txt, type, fName, url) {
         dataType: type,
         fileName: fName,
         fileUrl: url,
-        timestamp: now.toLocaleString() //現在時刻をタイムスタンプの値に設定
+        uniqueKey: newPostRef.key, //ユニークキー
+        timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
+        stamp:{
+            stamp01:'0',
+            stamp02:'0',
+            stamp03:'0',
+            stamp04:'0'
+        }
     };
 
-    const newPostRef = push(ref(db, 'chat/' + room_name)); //ユニークKEYを生成
+    console.log(newPostRef.key);
     set(newPostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
 }
 
@@ -138,19 +152,30 @@ const fileUrlDownloader = async(fileName) => {
 //----------------------------------------------------------
 
 
-//メッセージを追加
+//メッセージを表示させる
 function contentAdd(channel, myNumber) {
     const dbRef = ref(db, 'chat/' + channel);
 
     onChildAdded(dbRef, function(data) {
         let log = data.val();
         if (killNumber == myNumber) { //最新のonChildAddedか照合
-            appendContent(log.uname, log.text, log.dataType, log.fileUrl, log.timestamp); //チャット欄へデータの追加
+            appendContent(log.uname, log.text, log.dataType, log.fileUrl, log.timestamp, log); //チャット欄へデータの追加
         } else {
             return;
         }
 
     })
+    onChildChanged(ref(db, 'chat/general'), (data) => {
+        let log = data.val();
+
+        if (killNumber == myNumber) { //最新のonChildAddedか照合
+            console.log(log.uname , log.text, log.dataType, log.fileUrl, log.timestamp,log);
+        } else {
+            return;
+        }
+    });
+
+
 }
 
 
@@ -167,45 +192,135 @@ function changeRoom(e) { //部屋移動
 
 //チャンネル移動用のボタンのリストを作成
 function chListLoad() {
-    const chListRef=ref(db,'channelList');
+    const chListRef = ref(db, 'channelList');
 
     onChildAdded(chListRef, function(data) {
         let list = data.val();
 
         console.log(list.channelName);
+        chSet.add(list.channelName);
         appendChList(list.channelName);
 
     })
 }
 
 //チャンネル追加フォームのイベントリスナー
-addRoombutton.addEventListener('click',channelAdd);
+addRoombutton.addEventListener('click', channelAdd);
 
-let chSet = new Set(["general","random"]);
+
 
 //チャンネル追加フォームの値をデータベースへ送信
 function channelAdd() {
-    
+
     //【公開チャンネル】全ユーザーに部屋ボタンが追加される
     let textbox = document.getElementById("roomtext");
     let inputValue = textbox.value;
     textbox.value = "";
     console.log(inputValue);
-    
+
     //チャンネル名の重複防止
-    if(!chSet.has(inputValue)){
+    if (!chSet.has(inputValue)) {
         chSet.add(inputValue);
-        let addCh={
-            channelName:inputValue
+        let addCh = {
+            channelName: inputValue
         }
-        
+
         const channelListRef = push(ref(db, 'channelList')); //ユニークKEYを生成
         set(channelListRef, addCh); //"channelList"にユニークKEYをつけてオブジェクトデータを登録
-    }else{
-        appendContent("error message","そのルームは既に存在します","msg","null","null");
+    } else {
+        appendContent("error message", "そのルームは既に存在します", "msg", "null", "null", "null", "null"); //チャット欄へデータの追加
     }
 
 }
+
+
+//スタンプボタンのイベントリスナー
+$(document).on('click','.stampBtn',function(e){
+    console.log('ok');
+    console.log($(this).data('stampnumber'));
+    console.log($(this).parent().attr('id'));
+    
+
+    let stampNumber= $(this).data('stampnumber');
+    let uniqueID=$(this).parent().attr('id');
+
+    switch (stampNumber) {
+        case "stamp01":
+            console.log("stamp01 switch");
+            break;
+        case "stamp02":
+            console.log("stamp02 switch");
+            break;
+        case "stamp03":
+            console.log("stamp03 switch");
+            break;
+        case "stamp04":
+            console.log("stamp04 switch");
+            break;
+        default:
+            console.log("stamp EventLisner default");
+            break;
+    }
+    let parent =$(this).parent();
+
+    // let now = new Date();
+    // let msg = {
+    //     uname: $(this).data('sendername'),
+    //     text: $(this).data('text'),
+    //     channel: room_name,
+    //     dataType: $(this).data('datatype'),
+    //     fileName: 'null',   //要調整
+    //     fileUrl: $(this).data('fileurl'),
+    //     timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
+    //     stamp:{
+    //         stamp01:'1',
+    //         stamp02:'10',
+    //         stamp03:'2',
+    //         stamp04:'3'
+    //     }
+    // };
+
+    // const PostRef = ref(db, 'chat/'+room_name+'/'+uniqueID);
+    // set(PostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
+    
+
+})
+
+
+// function ok(e) {
+//     console.log('ok');
+// }
+
+
+
+
+let testbtn = document.getElementById('testbtn');
+testbtn.addEventListener('click', tester);
+
+function tester() {
+    let now = new Date();
+    let msg = {
+        uname: 'update004',
+        text: 'update',
+        channel: room_name,
+        dataType: 'msg',
+        fileName: 'update',
+        fileUrl: 'update',
+        timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
+        stamp:{
+            stamp01:'1',
+            stamp02:'10',
+            stamp03:'2',
+            stamp04:'3'
+        }
+    };
+
+    const PostRef = ref(db, 'chat/general/-MpjNUtJs0YXzkDL4L3j');
+    set(PostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
+    console.log('update?');
+}
+
+
 
 //ファイル送受信のプロセス
 //---------------------

@@ -120,10 +120,11 @@ header > input {
 }
 .addbutton {
   color: #a6a8b3;
-  background-color: rgb(66, 64, 66);
-  margin-top: 15px;
+  background-color: #383538;
+  margin-top: 20px;
   margin-left: 10px;
   cursor: pointer;
+
 }
 #center > h3 {
   border-bottom: 1px solid;
@@ -233,3 +234,7 @@ summary {
   max-height: 250px;
   width: auto;
   }
+
+#video{
+  margin:20px 0px 0px 10px;
+}

@@ -111,11 +111,6 @@
             onClick="addDMroom()"
           />
           <input type="text" id="DMtext" placeholder="【DM】送りたい人の名前" />
-          <!-- <button onclick="addroom()">追加</button> -->
-
-        <img id='myimg' src="" alt="">
-          <br />
-        <button  > <a href="//localhost:8080" target=”_blank”>ビデオチャット</a> </button> 
 
           <p>チームメンバー</p>
           <ul class="online_user"></ul>
@@ -125,11 +120,14 @@
           <input
             type="button"
             name="buttonName"
-            id="addbutton"
+            class="addbutton"
             value="+"
             onClick="window.open('localhost:3000','_blank')"
           />
         </div>
+        <button id="video" type=“button” onclick="window.open('//localhost:8080')"><img src="images/video.svg" alt=""></button>
+        <button id="testbtn">test</button>
+
       </div>
 
       <div id="center">
@@ -167,6 +165,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="front.js"></script>
     <script src="firebase.js" type="module"></script>
-    
+    <link rel="stylesheet" href="https://fonts.google.com/icons?family=Material+Icons">
   </body>
 </html>

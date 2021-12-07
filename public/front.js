@@ -1,16 +1,16 @@
-$(function () {
+$(function() {
     $("#select2").select2({
         width: "50%",
         placeholder: "#,@検索",
         background: "blue",
     });
 });
-$(function () {
-    $(".js-modal-open").on("click", function () {
+$(function() {
+    $(".js-modal-open").on("click", function() {
         $(".js-modal").fadeIn();
         return false;
     });
-    $(".js-modal-close").on("click", function () {
+    $(".js-modal-close").on("click", function() {
         $(".js-modal").fadeOut();
         return false;
     });
@@ -26,7 +26,7 @@ function addprivateroom() {
     $(".channel_list").prepend(
         `<button id="bt" >#${inputValue}</button><br>`
     );
-    $("#bt").click(inputValue, function (e) {
+    $("#bt").click(inputValue, function(e) {
         moveToRoom(inputValue);
     });
     $("#Channel").append(`<option>#${inputValue}</option>`);
@@ -93,7 +93,7 @@ socket.on("restore message", (message, name2, time) => {
     if (name == name2) {
         // restoreMessage(message, time);
         //とりあえずコメントアウト
-        
+
     }
     name2 = "";
 });
@@ -119,7 +119,7 @@ socket.on("image", (imageData) => {
         var ctx = canvas.getContext("2d");
         var img = new Image();
         img.src = imageData;
-        img.onload = function () {
+        img.onload = function() {
             canvas.width = img.width;
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
@@ -133,16 +133,15 @@ socket.on("image", (imageData) => {
 
 //アップロードを許可する拡張子
 //jpg jpeg png gif をimgタグで表示するため拡張子判定を行う
-var allow_exts = new Array('jpg', 'jpeg', 'png','gif');
+var allow_exts = new Array('jpg', 'jpeg', 'png', 'gif');
 
 //アップロード予定のファイル名の拡張子が許可されているか確認する関数
-function checkImgExt(fileName)
-{
-	//比較のため小文字にする
-	var ext = getExt(fileName).toLowerCase();
-	//許可する拡張子の一覧(allow_exts)から対象の拡張子があるか確認する
-	if (allow_exts.indexOf(ext) === -1) return false;
-	return true;
+function checkImgExt(fileName) {
+    //比較のため小文字にする
+    var ext = getExt(fileName).toLowerCase();
+    //許可する拡張子の一覧(allow_exts)から対象の拡張子があるか確認する
+    if (allow_exts.indexOf(ext) === -1) return false;
+    return true;
 }
 
 //ファイル名を渡して拡張子を返す
@@ -164,76 +163,232 @@ function sendImage(event) {
 
 //appendMessage拡張版
 //引数のデータタイプに応じた表示に切り替えてappendする
-const appendContent = (sender_name,text,dataType,fileUrl,timestamp)=>{
+const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => {
     var time = timestamp.slice(5, -3);
     let n = 0;
     const item = document.createElement("li");
-    const subText= document.createElement("div");
+    const subText = document.createElement("div");
     item.className = "msglist";
-    item.onmouseover = function () {
-        if (n == 0) {
-            item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
-            item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
-            item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">🖕</button>`;
-            item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">👋</button>`;
-        }
-        n = 1;
-    };
+    item.id = log.uniqueKey;
+
+    item.dataset.sendername=sender_name;
+    item.dataset.text=text;
+    item.dataset.datatype=dataType;
+    item.dataset.fileurl=fileUrl;
+    item.dataset.timestamp=timestamp;
+    item.dataset.filename=log.fileName;
+
+
+    // for (let index = 0; index < 4; index++) {
+    //     let stampBtn=document.createElement("button");
+    //     stampBtn.className="stampBtn";
+
+    //     switch (index) {
+    //         case 0:
+    //             stampBtn.textContent="👍";
+    //             break;
+    //         case 1:
+    //             stampBtn.innerHTML="👎";
+    //             break;
+    //         case 2:
+    //             stampBtn.innerHTML="👎";
+    //             break;
+    //         case 3:
+    //             stampBtn.innerHTML="👎";
+    //             break;
+    //     }
+    //     stampBtn.innerHTML="👍";
+
+    //     item.appendChild(stampBtn);
+        
+    // }
+
+
+
+
+
+
+    // item.addEventListener('mouseover', function(e) {
+    //     if (n == 0) {
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_1" onclick="sendStamp(1,'${log.uniqueKey}')">👍</button>`; //これ
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_2" onclick="sendStamp(2)">👎</button>`;
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_3" onclick="sendStamp(3)">🖕</button>`;
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_4" onclick="sendStamp(4)">👋</button>`;
+    //     }
+    //     n = 1;
+
+    // })
+
+    // item.onmouseover = function() {
+    //     if (n == 0) {
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_1" onclick="sendStamp(1,'${log.uniqueKey}')">👍</button>`; //これ
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_2" onclick="sendStamp(2)">👎</button>`;
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_3" onclick="sendStamp(3)">🖕</button>`;
+    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_4" onclick="sendStamp(4)">👋</button>`;
+    //     }
+    //     n = 1;
+    // };
+
+
 
     switch (dataType) {
         case 'msg': //itemにmsg格納
             item.textContent = text + "【@" + sender_name + "】" + time;
+            
             // console.log('msg');
             break;
-    
+
         case 'img': //imgタグをつくって画像表示
-            const imageData=document.createElement("img");
+            const imageData = document.createElement("img");
             imageData.classList.add('appendImg')
-            imageData.src=fileUrl;
+            imageData.src = fileUrl;
             // imageData.width=300;
             item.appendChild(imageData);
             // console.log('img');
             break;
-        
+
         case 'link':
-            const link=document.createElement('a');
-            link.textContent=text;
-            link.href=text;
+            const link = document.createElement('a');
+            link.textContent = text;
+            link.href = text;
             console.log(text)
-            link.target="_blank";
-            subText.textContent="【@" + sender_name + "】" + time;
+            link.target = "_blank";
+            subText.textContent = "【@" + sender_name + "】" + time;
             item.appendChild(link);
             item.appendChild(subText);
             console.log('link');
             break;
-            
 
-        case 'other':   //aタグでファイルリンク表示
-            const urlLink= document.createElement("a");
+
+        case 'other': //aタグでファイルリンク表示
+            const urlLink = document.createElement("a");
             // const subText= document.createElement("div");
-            urlLink.textContent=text;
-            urlLink.href=fileUrl;
-            urlLink.download="";
-            urlLink.target="_blank";
-            subText.textContent="【@" + sender_name + "】" + time;
+            urlLink.textContent = text;
+            urlLink.href = fileUrl;
+            urlLink.download = "";
+            urlLink.target = "_blank";
+            subText.textContent = "【@" + sender_name + "】" + time;
             item.appendChild(urlLink);
             item.appendChild(subText);
             // console.log('other');
             break;
     }
+    
+    for (let index = 0; index < 4; index++) {
+        let stampBtn=document.createElement("button");
+        stampBtn.className="stampBtn";
+
+        switch (index) {
+            case 0:
+                stampBtn.innerHTML="👍";
+                break;
+            case 1:
+                stampBtn.innerHTML="👎";
+                break;
+            case 2:
+                stampBtn.innerHTML="👎";
+                break;
+            case 3:
+                stampBtn.innerHTML="👎";
+                break;
+        }
+        stampBtn.dataset.stampnumber="stamp0"+(index+1);
+
+
+        item.appendChild(stampBtn);
+        
+    }
+
+
+//.stampや.stamp.stamp01等のプロパティが実装されていないデータもあるため、TypeErrorが発生しているが、全データのデータ構造を最新にすれば治る
+//-------ここからーーーーーーーーーーー
+    // console.log(log);
+    // console.log(log.stamp);
+    // console.log(log.stamp.stamp01);
+
+    // item.dataset.stamp01 = log.stamp.stamp01;
+    // item.dataset.stamp02 = log.stamp.stamp02;
+    // item.dataset.stamp03 = log.stamp.stamp03;
+    // item.dataset.stamp04 = log.stamp.stamp04;
+
+//-------ここまで削除で一旦エラー消えるーーーーーーーーーーー
 
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
 }
 
-//チャンネルリストのボタン追加
-const appendChList =(name)=>{
+// const appendContent = (log)=>{
+//     var time = log.timestamp.slice(5, -3);
+//     let n = 0;
+//     const item = document.createElement("li");
+//     const subText= document.createElement("div");
+//     item.className = "msglist";
+//     item.id=log.uniqueKey;
 
-    const chBtn=document.createElement("button");
-    const brTag=document.createElement("br");
-    chBtn.textContent="# "+name;
-    chBtn.setAttribute('onclick', "moveToRoom('"+name+"')");
-    chBtn.id=name;
+//     item.onmouseover = function () {
+//         if (n == 0) {
+//             item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
+//             item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
+//             item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">🖕</button>`;
+//             item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">👋</button>`;
+//         }
+//         n = 1;
+//     };
+
+//     switch (log.dataType) {
+//         case 'msg': //itemにmsg格納
+//             item.textContent = log.text + "【@" + log.uname + "】" + time;
+//             // console.log('msg');
+//             break;
+
+//         case 'img': //imgタグをつくって画像表示
+//             const imageData=document.createElement("img");
+//             imageData.classList.add('appendImg')
+//             imageData.src=log.fileUrl;
+//             // imageData.width=300;
+//             item.appendChild(imageData);
+//             // console.log('img');
+//             break;
+
+//         case 'link':
+//             const link=document.createElement('a');
+//             link.textContent=log.text;
+//             link.href=log.text;
+//             console.log(log.text)
+//             link.target="_blank";
+//             subText.textContent="【@" + log.uname + "】" + time;
+//             item.appendChild(link);
+//             item.appendChild(subText);
+//             console.log('link');
+//             break;
+
+
+//         case 'other':   //aタグでファイルリンク表示
+//             const urlLink= document.createElement("a");
+//             // const subText= document.createElement("div");
+//             urlLink.textContent=log.text;
+//             urlLink.href=log.fileUrl;
+//             urlLink.download="";
+//             urlLink.target="_blank";
+//             subText.textContent="【@" + log.uname + "】" + time;
+//             item.appendChild(urlLink);
+//             item.appendChild(subText);
+//             // console.log('other');
+//             break;
+//     }
+
+//     messages.appendChild(item);
+//     window.scrollTo(0, document.body.scrollHeight);
+// }
+
+//チャンネルリストのボタン追加
+const appendChList = (name) => {
+
+    const chBtn = document.createElement("button");
+    const brTag = document.createElement("br");
+    chBtn.textContent = "# " + name;
+    chBtn.setAttribute('onclick', "moveToRoom('" + name + "')");
+    chBtn.id = name;
     channelBtn.appendChild(chBtn);
     channelBtn.appendChild(brTag);
 
@@ -247,7 +402,7 @@ const restoreMessage = (message, timestamp) => {
     let n = 0;
     const item = document.createElement("li");
     item.className = "msglist";
-    item.onmouseover = function () {
+    item.onmouseover = function() {
         if (n == 0) {
             item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
             item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
@@ -280,7 +435,7 @@ socket.on("stop typing", () => {
 socket.on("DM create", (dm, receiver_1, sender_1) => {
     if (name == receiver_1 || name == sender_1) {
         $(".DM_list").prepend(`<button id="bt_dm" >📩${dm}</button><br>`);
-        $("#bt_dm").click(dm, function (e) {
+        $("#bt_dm").click(dm, function(e) {
             moveToRoom(dm);
         });
     }
@@ -299,8 +454,12 @@ function moveToRoom(roomname) {
     socket.emit("setRoomName", roomname, name);
 }
 
-function sendStamp(n) {
+//
+function sendStamp(n, key) {
     socket.emit("send stamp", n);
+
+
+    console.log(key);
 }
 
 const file = document.getElementById("file");
