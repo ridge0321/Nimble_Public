@@ -171,12 +171,15 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
     item.className = "msglist";
     item.id = log.uniqueKey;
 
-    item.dataset.sendername=sender_name;
-    item.dataset.text=text;
-    item.dataset.datatype=dataType;
-    item.dataset.fileurl=fileUrl;
-    item.dataset.timestamp=timestamp;
-    item.dataset.filename=log.fileName;
+    item.dataset.sendername = sender_name;
+    item.dataset.text = text;
+    item.dataset.datatype = dataType;
+    item.dataset.fileurl = fileUrl;
+    item.dataset.timestamp = timestamp;
+    item.dataset.filename = log.fileName;
+
+    console.log(fileUrl,log.fileName);
+
 
 
     // for (let index = 0; index < 4; index++) {
@@ -200,7 +203,7 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
     //     stampBtn.innerHTML="👍";
 
     //     item.appendChild(stampBtn);
-        
+
     // }
 
 
@@ -234,7 +237,7 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
     switch (dataType) {
         case 'msg': //itemにmsg格納
             item.textContent = text + "【@" + sender_name + "】" + time;
-            
+
             // console.log('msg');
             break;
 
@@ -273,45 +276,44 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
             // console.log('other');
             break;
     }
-    
+
     for (let index = 0; index < 4; index++) {
-        let stampBtn=document.createElement("button");
-        stampBtn.className="stampBtn";
+        let stampBtn = document.createElement("button");
+        stampBtn.className = "stampBtn";
 
         switch (index) {
             case 0:
-                stampBtn.innerHTML="👍";
+                stampBtn.innerHTML = "👍";
                 break;
             case 1:
-                stampBtn.innerHTML="👎";
+                stampBtn.innerHTML = "👎";
                 break;
             case 2:
-                stampBtn.innerHTML="👎";
+                stampBtn.innerHTML = "👎";
                 break;
             case 3:
-                stampBtn.innerHTML="👎";
+                stampBtn.innerHTML = "👎";
                 break;
         }
-        stampBtn.dataset.stampnumber="stamp0"+(index+1);
+        stampBtn.dataset.stampnumber = "stamp0" + (index + 1);
 
 
         item.appendChild(stampBtn);
-        
     }
 
 
-//.stampや.stamp.stamp01等のプロパティが実装されていないデータもあるため、TypeErrorが発生しているが、全データのデータ構造を最新にすれば治る
-//-------ここからーーーーーーーーーーー
-    // console.log(log);
-    // console.log(log.stamp);
-    // console.log(log.stamp.stamp01);
+    //.stampや.stamp.stamp01等のプロパティが実装されていないデータもあるため、TypeErrorが発生しているが、全データのデータ構造を最新にすれば治る
+    //-------ここからーーーーーーーーーーー
+    console.log(log);
+    console.log(log.stamp);
+    console.log(log.stamp.stamp01);
 
-    // item.dataset.stamp01 = log.stamp.stamp01;
-    // item.dataset.stamp02 = log.stamp.stamp02;
-    // item.dataset.stamp03 = log.stamp.stamp03;
-    // item.dataset.stamp04 = log.stamp.stamp04;
+    item.dataset.stamp01 = log.stamp.stamp01;
+    item.dataset.stamp02 = log.stamp.stamp02;
+    item.dataset.stamp03 = log.stamp.stamp03;
+    item.dataset.stamp04 = log.stamp.stamp04;
 
-//-------ここまで削除で一旦エラー消えるーーーーーーーーーーー
+    //-------ここまで削除で一旦エラー消えるーーーーーーーーーーー
 
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
@@ -394,6 +396,19 @@ const appendChList = (name) => {
 
 };
 
+const updateContent = (log) => {
+
+    console.log(log.uniqueKey);
+    let updateTarget = document.getElementById(log.uniqueKey);
+    console.log(log.stamp.stamp01,log.stamp.stamp02,log.stamp.stamp03,log.stamp.stamp04);
+    updateTarget.dataset.stamp01=log.stamp.stamp01;
+    updateTarget.dataset.stamp02=log.stamp.stamp02;
+    updateTarget.dataset.stamp03=log.stamp.stamp03;
+    updateTarget.dataset.stamp04=log.stamp.stamp04;
+
+
+
+}
 
 //使ってない
 const restoreMessage = (message, timestamp) => {

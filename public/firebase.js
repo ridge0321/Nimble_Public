@@ -58,11 +58,11 @@ function dataSendToDB(txt, type, fName, url) {
         fileUrl: url,
         uniqueKey: newPostRef.key, //ユニークキー
         timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
-        stamp:{
-            stamp01:'0',
-            stamp02:'0',
-            stamp03:'0',
-            stamp04:'0'
+        stamp: {
+            stamp01: '0',
+            stamp02: '0',
+            stamp03: '0',
+            stamp04: '0'
         }
     };
 
@@ -75,9 +75,9 @@ $("#send").on("click", function() {
     let inputVal = $("#input").val();
     console.log(inputVal.slice(0, 4) + 'slice')
     if (inputVal.slice(0, 4) == 'http') { //リンクを検出
-        dataSendToDB(inputVal, 'link', 'null', 'null');
+        dataSendToDB(inputVal, 'link', '0', '0');
     } else {
-        dataSendToDB(inputVal, 'msg', 'null', 'null');
+        dataSendToDB(inputVal, 'msg', '0', '0');
     }
 });
 
@@ -165,11 +165,14 @@ function contentAdd(channel, myNumber) {
         }
 
     })
-    onChildChanged(ref(db, 'chat/general'), (data) => {
+
+    onChildChanged(ref(db, 'chat/' + channel), (data) => {
         let log = data.val();
 
         if (killNumber == myNumber) { //最新のonChildAddedか照合
-            console.log(log.uname , log.text, log.dataType, log.fileUrl, log.timestamp,log);
+            console.log(log.uname, log.text, log.dataType, log.fileUrl, log.timestamp, log);
+            updateContent(log);
+
         } else {
             return;
         }
@@ -235,61 +238,82 @@ function channelAdd() {
 
 
 //スタンプボタンのイベントリスナー
-$(document).on('click','.stampBtn',function(e){
+$(document).on('click', '.stampBtn', function(e) {
+
+    
     console.log('ok');
     console.log($(this).data('stampnumber'));
     console.log($(this).parent().attr('id'));
-    
 
-    let stampNumber= $(this).data('stampnumber');
-    let uniqueID=$(this).parent().attr('id');
+    let stampNumber = $(this).data('stampnumber');
+    let parent = $(this).parent();
+    let uniqueID = parent.attr('id');
+
+    let stamp01Tmp = parent.data('stamp01');
+    let stamp02Tmp = parent.data('stamp02');
+    let stamp03Tmp = parent.data('stamp03');
+    let stamp04Tmp = parent.data('stamp04');
+    console.log(stamp01Tmp, stamp02Tmp, stamp03Tmp, stamp04Tmp, '：：要素を拾った時のdataset');
+
 
     switch (stampNumber) {
         case "stamp01":
             console.log("stamp01 switch");
+            stamp01Tmp++;
+            console.log(stamp01Tmp);
             break;
+
         case "stamp02":
             console.log("stamp02 switch");
+            stamp02Tmp++;
+            console.log(stamp02Tmp);
             break;
+
         case "stamp03":
             console.log("stamp03 switch");
+            stamp03Tmp++;
+            console.log(stamp03Tmp);
             break;
+
         case "stamp04":
             console.log("stamp04 switch");
+            stamp04Tmp++;
+            console.log(stamp04Tmp);
             break;
+
         default:
             console.log("stamp EventLisner default");
             break;
     }
-    let parent =$(this).parent();
+    console.log(parent.data('filename') + '::nullcheck filename');
+    console.log(parent.data('fileurl') + '::nullcheck fileurl');
 
-    // let now = new Date();
-    // let msg = {
-    //     uname: $(this).data('sendername'),
-    //     text: $(this).data('text'),
-    //     channel: room_name,
-    //     dataType: $(this).data('datatype'),
-    //     fileName: 'null',   //要調整
-    //     fileUrl: $(this).data('fileurl'),
-    //     timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
-    //     stamp:{
-    //         stamp01:'1',
-    //         stamp02:'10',
-    //         stamp03:'2',
-    //         stamp04:'3'
-    //     }
-    // };
+    let now = new Date();
+    let msg = {
+        uname: parent.data('sendername'),
+        text: parent.data('text'),
+        channel: room_name,
+        dataType: parent.data('datatype'),
+        fileName: parent.data('filename'),
+        fileUrl: parent.data('fileurl'),
+        uniqueKey: uniqueID, //ユニークキー
+        timestamp: now.toLocaleString(),
+        stamp: {
+            stamp01: stamp01Tmp,
+            stamp02: stamp02Tmp,
+            stamp03: stamp03Tmp,
+            stamp04: stamp04Tmp
+        }
+    };
 
-    // const PostRef = ref(db, 'chat/'+room_name+'/'+uniqueID);
-    // set(PostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
-    
+    console.log(msg);
+
+    const PostRef = ref(db, 'chat/' + room_name + '/' + uniqueID);
+    set(PostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
+
+
 
 })
-
-
-// function ok(e) {
-//     console.log('ok');
-// }
 
 
 
@@ -307,11 +331,11 @@ function tester() {
         fileName: 'update',
         fileUrl: 'update',
         timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
-        stamp:{
-            stamp01:'1',
-            stamp02:'10',
-            stamp03:'2',
-            stamp04:'3'
+        stamp: {
+            stamp01: '1',
+            stamp02: '10',
+            stamp03: '2',
+            stamp04: '3'
         }
     };
 
