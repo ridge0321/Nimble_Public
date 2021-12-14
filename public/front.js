@@ -178,59 +178,7 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
     item.dataset.timestamp = timestamp;
     item.dataset.filename = log.fileName;
 
-    console.log(fileUrl,log.fileName);
-
-
-
-    // for (let index = 0; index < 4; index++) {
-    //     let stampBtn=document.createElement("button");
-    //     stampBtn.className="stampBtn";
-
-    //     switch (index) {
-    //         case 0:
-    //             stampBtn.textContent="👍";
-    //             break;
-    //         case 1:
-    //             stampBtn.innerHTML="👎";
-    //             break;
-    //         case 2:
-    //             stampBtn.innerHTML="👎";
-    //             break;
-    //         case 3:
-    //             stampBtn.innerHTML="👎";
-    //             break;
-    //     }
-    //     stampBtn.innerHTML="👍";
-
-    //     item.appendChild(stampBtn);
-
-    // }
-
-
-
-
-
-
-    // item.addEventListener('mouseover', function(e) {
-    //     if (n == 0) {
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_1" onclick="sendStamp(1,'${log.uniqueKey}')">👍</button>`; //これ
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_2" onclick="sendStamp(2)">👎</button>`;
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_3" onclick="sendStamp(3)">🖕</button>`;
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_4" onclick="sendStamp(4)">👋</button>`;
-    //     }
-    //     n = 1;
-
-    // })
-
-    // item.onmouseover = function() {
-    //     if (n == 0) {
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_1" onclick="sendStamp(1,'${log.uniqueKey}')">👍</button>`; //これ
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_2" onclick="sendStamp(2)">👎</button>`;
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_3" onclick="sendStamp(3)">🖕</button>`;
-    //         item.innerHTML += `<button type="button" class="stampBtn" id="button_4" onclick="sendStamp(4)">👋</button>`;
-    //     }
-    //     n = 1;
-    // };
+    console.log(fileUrl, log.fileName);
 
 
 
@@ -289,10 +237,10 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
                 stampBtn.innerHTML = "👎";
                 break;
             case 2:
-                stampBtn.innerHTML = "👎";
+                stampBtn.innerHTML = "🖕";
                 break;
             case 3:
-                stampBtn.innerHTML = "👎";
+                stampBtn.innerHTML = "👋";
                 break;
         }
         stampBtn.dataset.stampnumber = "stamp0" + (index + 1);
@@ -315,73 +263,15 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
 
     //-------ここまで削除で一旦エラー消えるーーーーーーーーーーー
 
+    let stampElement = document.createElement('div');
+    stampElement.id = 'stampLog' + log.uniqueKey;
+    appendStamp(stampElement, item);//スタンプログ追加
+
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
 }
 
-// const appendContent = (log)=>{
-//     var time = log.timestamp.slice(5, -3);
-//     let n = 0;
-//     const item = document.createElement("li");
-//     const subText= document.createElement("div");
-//     item.className = "msglist";
-//     item.id=log.uniqueKey;
 
-//     item.onmouseover = function () {
-//         if (n == 0) {
-//             item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
-//             item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
-//             item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">🖕</button>`;
-//             item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">👋</button>`;
-//         }
-//         n = 1;
-//     };
-
-//     switch (log.dataType) {
-//         case 'msg': //itemにmsg格納
-//             item.textContent = log.text + "【@" + log.uname + "】" + time;
-//             // console.log('msg');
-//             break;
-
-//         case 'img': //imgタグをつくって画像表示
-//             const imageData=document.createElement("img");
-//             imageData.classList.add('appendImg')
-//             imageData.src=log.fileUrl;
-//             // imageData.width=300;
-//             item.appendChild(imageData);
-//             // console.log('img');
-//             break;
-
-//         case 'link':
-//             const link=document.createElement('a');
-//             link.textContent=log.text;
-//             link.href=log.text;
-//             console.log(log.text)
-//             link.target="_blank";
-//             subText.textContent="【@" + log.uname + "】" + time;
-//             item.appendChild(link);
-//             item.appendChild(subText);
-//             console.log('link');
-//             break;
-
-
-//         case 'other':   //aタグでファイルリンク表示
-//             const urlLink= document.createElement("a");
-//             // const subText= document.createElement("div");
-//             urlLink.textContent=log.text;
-//             urlLink.href=log.fileUrl;
-//             urlLink.download="";
-//             urlLink.target="_blank";
-//             subText.textContent="【@" + log.uname + "】" + time;
-//             item.appendChild(urlLink);
-//             item.appendChild(subText);
-//             // console.log('other');
-//             break;
-//     }
-
-//     messages.appendChild(item);
-//     window.scrollTo(0, document.body.scrollHeight);
-// }
 
 //チャンネルリストのボタン追加
 const appendChList = (name) => {
@@ -400,15 +290,44 @@ const updateContent = (log) => {
 
     console.log(log.uniqueKey);
     let updateTarget = document.getElementById(log.uniqueKey);
-    console.log(log.stamp.stamp01,log.stamp.stamp02,log.stamp.stamp03,log.stamp.stamp04);
-    updateTarget.dataset.stamp01=log.stamp.stamp01;
-    updateTarget.dataset.stamp02=log.stamp.stamp02;
-    updateTarget.dataset.stamp03=log.stamp.stamp03;
-    updateTarget.dataset.stamp04=log.stamp.stamp04;
+    console.log(log.stamp.stamp01, log.stamp.stamp02, log.stamp.stamp03, log.stamp.stamp04, '：：updateContentのdataset');
+    console.log(log.stamp.stamp01, '：：updateContentのdataset1');
+    console.log(log.stamp.stamp02, '：：updateContentのdataset2');
+    updateTarget.dataset.stamp01 = log.stamp.stamp01;
+    updateTarget.dataset.stamp02 = log.stamp.stamp02;
+    updateTarget.dataset.stamp03 = log.stamp.stamp03;
+    updateTarget.dataset.stamp04 = log.stamp.stamp04;
 
+    //タグ作ってスタンプのせる
+
+    let stampElement = document.getElementById('stampLog' + log.uniqueKey);
+    appendStamp(stampElement, updateTarget);
 
 
 }
+
+const appendStamp = (appendElement, updateTarget) => {// スタンプログ追加 スタンプログを格納する要素とその親要素を受け取る
+    appendElement.innerHTML = ''; 
+
+    let stamps = [updateTarget.dataset.stamp01, updateTarget.dataset.stamp02, updateTarget.dataset.stamp03, updateTarget.dataset.stamp04];
+    let stampIcons = ['👍', '👎', '🖕', '👋'];
+
+    console.log(stamps);
+
+    for (let i = 0; i < stamps.length; i++) {
+        if (stamps[i] != 0) {
+            console.log('ifOK');
+            appendElement.innerHTML += `${stampIcons[i]}${stamps[i]} `;
+
+        }
+
+    }
+
+    console.log(appendElement);
+    updateTarget.appendChild(appendElement);
+
+}
+
 
 //使ってない
 const restoreMessage = (message, timestamp) => {
