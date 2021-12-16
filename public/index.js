@@ -14,6 +14,10 @@ let readline = require("readline"); //【公開チャンネル】全ユーザー
 fs.writeFile('./new_store.csv', '', (err) => { //【DM】受信者と送信者にのみDMボタンが追加される
 
 }); //下書きを押すとmodalが開きます
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/login/login.html');
+
+});
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 
@@ -151,5 +155,5 @@ io.on('connection', (socket) => {
 });
 server.listen(3000, () => {
     console.log('listening on *:3000');
-    console.log(`Example app listening at http://localhost:3000`);
+    console.log(`Example app listening at http://localhost:3000/login`);
 });

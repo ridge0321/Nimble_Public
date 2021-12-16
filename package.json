@@ -1,0 +1,18 @@
+{
+  "name": "chat-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kitagawa",
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^5.5.0",
+    "express": "^4.17.1",
+    "firebase": "^9.1.3",
+    "package-json": "^6.5.0",
+    "socket.io": "^4.1.1"
+  }
+}
