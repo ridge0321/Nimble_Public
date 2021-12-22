@@ -200,8 +200,10 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
 
         case 'link':
             const link = document.createElement('a');
+
             link.textContent = text;
             link.href = text;
+            link.className="links";
             console.log(text)
             link.target = "_blank";
             subText.textContent = "【@" + sender_name + "】" + time;
@@ -214,10 +216,12 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
         case 'other': //aタグでファイルリンク表示
             const urlLink = document.createElement("a");
             // const subText= document.createElement("div");
+
             urlLink.textContent = text;
             urlLink.href = fileUrl;
             urlLink.download = "";
             urlLink.target = "_blank";
+            urlLink.className="links";
             subText.textContent = "【@" + sender_name + "】" + time;
             item.appendChild(urlLink);
             item.appendChild(subText);
