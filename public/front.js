@@ -72,7 +72,22 @@ let channelBtn = document.getElementsByClassName('channel_list')[0];
 let name = "";
 let userarray = [];
 let room_name = "general";
-name = prompt("ユーザー名を入力してください");
+const hash = location.hash;
+name = hash.substr( 9 );
+//tuika
+//const hash = location.hash;
+
+if(name === ''){
+    alert('ログインをやり直してください')
+    location.replace('http://localhost:3000/login');
+
+}
+if(hash == '#approval'+name){
+}else{
+    alert('ログインをやり直してください')
+    location.replace('http://localhost:3000/login');
+}
+//tuika
 $("#User").append($("<option>").html("@" + name));
 
 let onlineUsers = [];

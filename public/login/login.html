@@ -32,9 +32,9 @@
       />
       <input type="text" id="user-name" placeholder="userID" />
       <span class=""></span>
-      <input class="bt" type="button" value="サインアップ" onclick="signUp()" />
-      <input class="bt" type="button" value="ログイン" onclick="signIn()" />
-      <input class="bt2" type="button" value="ログアウト" onclick="signOut()" />
+      <input class="bt" type="button" value="Sign In" onclick="signUp()" />
+      <input class="bt" type="button" value="Log In" onclick="signIn()" />
+      <input class="bt2" type="button" value="Log Out" onclick="signOut()" />
     </form>
   </div>
 
@@ -46,5 +46,17 @@
 </div>
     <!-- このファイルに認証用の処理を実装します。 -->
     <script src="firebase-auth.js"></script>
+    
+    <script>
+      window.addEventListener('hashchange',handleHashChange);
+      handleHashChange();
+
+      function handleHashChange(){
+        const hash = location.hash
+          if(hash.match(/approval/)){
+            location.replace('http://localhost:3000/login');
+          }
+      }
+    </script>
   </body>
 </html>

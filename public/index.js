@@ -20,7 +20,6 @@ app.get('/login', (req, res) => {
 });
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
-
 });
 io.on('connection', (socket) => {
     socket.join(room);

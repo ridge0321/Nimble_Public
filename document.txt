@@ -1,3 +1,10 @@
+//main起動
+//Nimbleディレクトリからコンソールで "node public/index.js"
+//skyway起動
+//コンソールで "php -S localhost:8080"
+
+
+
 //ファイル送受信のプロセス
 //---------------------
 //1.ファイルをstorageへ送信
