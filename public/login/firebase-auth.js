@@ -2,8 +2,8 @@
 
 // Firebaseの初期化
 var config = {
-  apiKey: "AIzaSyAPSukIMjPwJoZsL6k4qkP5UqkSnxqSzgk",
-  authDomain: "sample-b2b18.firebaseapp.com",
+  apiKey: "AIzaSyBZxjwX0yd15FkvGzoVZlXgRdIQaJgH7j4",
+  authDomain: "sky-way-d053d.firebaseapp.com",
   };
   firebase.initializeApp(config);
   
@@ -32,9 +32,10 @@ var config = {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(function(result) {
         document.getElementById('log').innerText = 'サインイン成功';
-        //location.replace('http://example.com');
-        
-        location.replace('http://localhost:3000');
+        //ログインページで入力したuserIDをhashに設定することでログインスルーを防いでいる
+        let userhash = document.getElementById('user-name').value
+        let hashkey = 'approval'
+        location.replace('http://localhost:3000#'+hashkey+userhash);
 
       }).catch(function(error) {
         var errorCode = error.code;
