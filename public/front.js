@@ -77,12 +77,12 @@ name = hash.substr( 9 );
 //tuika
 //const hash = location.hash;
 
-if(name === ''){
-    alert('ログインをやり直してください')
-    location.replace('http://localhost:3000/login');
+// if(name === ''){
+//     alert('ログインをやり直してください')
+//     location.replace('http://localhost:3000/login');
 
-}
-if(hash == '#approval'+name){
+// }
+if(hash == '#approval'+name && name === ''){
 }else{
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
