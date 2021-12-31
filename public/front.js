@@ -75,15 +75,17 @@ let room_name = "general";
 const hash = location.hash;
 name = hash.substr( 9 );
 //tuika
+
 //const hash = location.hash;
 
+//重複修正
 // if(name === ''){
 //     alert('ログインをやり直してください')
 //     location.replace('http://localhost:3000/login');
 
 // }
-if(hash == '#approval'+name && name === ''){
-}else{
+
+if(!(hash == '#approval'+name )&& name === ''){
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 }
