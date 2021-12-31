@@ -14,14 +14,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 // Your web app's Firebase configuration
 
+
 const firebaseConfig = {
-    apiKey: "AIzaSyBZxjwX0yd15FkvGzoVZlXgRdIQaJgH7j4",
-    authDomain: "sky-way-d053d.firebaseapp.com",
-    databaseURL: "https://sky-way-d053d-default-rtdb.firebaseio.com",
-    projectId: "sky-way-d053d",
-    storageBucket: "sky-way-d053d.appspot.com",
-    messagingSenderId: "256426296650",
-    appId: "1:256426296650:web:66eacc287adffb69496db3"
+    apiKey: "AIzaSyDooaWi5DcWY0oKpOm5z8W0uFc-7uK3754",
+    authDomain: "test-47d47.firebaseapp.com",
+    databaseURL: "https://test-47d47-default-rtdb.firebaseio.com",
+    projectId: "test-47d47",
+    storageBucket: "test-47d47.appspot.com",
+    messagingSenderId: "311288543013",
+    appId: "1:311288543013:web:2886dabb7366fe05784ccc"
 };
 
 const app = initializeApp(firebaseConfig);
