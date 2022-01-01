@@ -74,8 +74,6 @@ let userarray = [];
 let room_name = "general";
 const hash = location.hash;
 name = hash.substr( 9 );
-//tuika
-//const hash = location.hash;
 
 if(name === ''){
     alert('ログインをやり直してください')
@@ -87,7 +85,6 @@ if(hash == '#approval'+name){
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 }
-//tuika
 $("#User").append($("<option>").html("@" + name));
 
 let onlineUsers = [];
