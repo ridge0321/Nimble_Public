@@ -2,18 +2,18 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io"); //甘い部分はありますが任意項目まで網羅出来てると思います
-const io = new Server(server); //ログ保存先new_store.csv
-const users = {}; //画像ファイル送信は画面右下のクリップマークです
-let mlog = []; //#,@マーク検索はヘッダーのinput
-let room = "general"; //スタンプはメッセージをmouseover
+const { Server } = require("socket.io"); 
+const io = new Server(server);
+const users = {};
+let mlog = [];
+let room = "general";
 app.use(express.static('public'));
-const fs = require('fs'); //---------チャンネル追加3パターン-------------
-const csv = require('csv'); //【プライベートch】部屋作った人にだけボタンが追加される・部屋名を相手に教え相手もチャンネルを作ることで招待可能
-let readline = require("readline"); //【公開チャンネル】全ユーザーに部屋ボタンが追加される
-fs.writeFile('./new_store.csv', '', (err) => { //【DM】受信者と送信者にのみDMボタンが追加される
+const fs = require('fs');
+const csv = require('csv');
+let readline = require("readline");
+fs.writeFile('./new_store.csv', '', (err) => { 
 
-}); //下書きを押すとmodalが開きます
+}); 
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/login/login.html');
 
@@ -155,4 +155,6 @@ io.on('connection', (socket) => {
 server.listen(3000, () => {
     console.log('listening on *:3000');
     console.log(`Example app listening at http://localhost:3000/login`);
+    console.log(`Example app listening at http://localhost:3000#approvalTester`);
+
 });

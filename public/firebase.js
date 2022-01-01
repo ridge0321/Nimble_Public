@@ -43,7 +43,8 @@ const fileInput = document.getElementById('file');
 const addRoombutton = document.getElementById("addRoombutton");
 //チャンネルリスト重複防止用のset
 let chSet = new Set(["general", "random"]);
-
+//sound
+let music = new Audio("./sound.mp3");
 //firebaseデータ登録
 
 
@@ -80,6 +81,7 @@ $("#send").on("click", function() {
     } else {
         dataSendToDB(inputVal, 'msg', '0', '0');
     }
+    music.play();  // 再生
 });
 
 
