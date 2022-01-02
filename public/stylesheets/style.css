@@ -73,7 +73,7 @@ header {
 #input:focus {
   outline: none;
 }
-#form > button {
+#form > #send{
   background: rgb(12, 1, 1);
   border: none;
   padding: 0 1rem;
@@ -281,4 +281,55 @@ button:hover{
 
 .links{
 color: skyblue;
+}
+    /* Google Fonts 読み込み */
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+/* 全体を囲うコンテナー */
+.container {
+  height: 10vh;
+  background-color: #2F3135;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* 時計の共通スタイル */
+.clock {
+  font-family: 'Share Tech Mono', monospace;
+  color: #f3f6f7;
+  text-shadow: 0 0 20px #03f3fc;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* 日付のスタイル */
+.clock-date {
+  font-size: 10px;
+}
+
+/* 時間のスタイル */
+.clock-time {
+  font-size: 20px;
+}
+
+#video{
+  background-color: white;
+}
+#video{
+  border: none;
+  padding: 0 1rem;
+  margin: 0.25rem;
+  border-radius: 5px;
+  outline: none;
+  border-color:white;
+}
+/* 文字サイズ調整 */
+@media screen and (max-width: 500px) {
+  .clock-date {
+    font-size: 5vw;
+  }
+  .clock-time {
+    font-size: 20vw;
+  }
 }
