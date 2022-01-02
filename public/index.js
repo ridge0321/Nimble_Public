@@ -1,8 +1,12 @@
+'use strict'
+
+const axios = require('axios');
+const URL = `https://ptb.discord.com/api/webhooks/927051523026980894/RFESQaEfBOrr1l7Zy7ULIlMiA6F5jJxU85CDq_vFVU_PHiW8VdbZtBmWWYJk-buTj-CU`;
 const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io"); 
+const { Server } = require("socket.io");
 const io = new Server(server);
 const users = {};
 let mlog = [];
@@ -11,9 +15,24 @@ app.use(express.static('public'));
 const fs = require('fs');
 const csv = require('csv');
 let readline = require("readline");
-fs.writeFile('./new_store.csv', '', (err) => { 
+let first = true;
+const config = {
+    headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+    }
+}
+const postData = {
+    username: 'Nimble BOT',
+    content: 'チャンネルに新しい投稿があります。'
+}
+const discordAlert = async () => {
+    const res = await axios.post(URL, postData, config);
+}
 
-}); 
+fs.writeFile('./new_store.csv', '', (err) => {
+
+});
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/login/login.html');
 
@@ -40,15 +59,12 @@ io.on('connection', (socket) => {
     socket.on("setUserName", (userName) => {
         socket.userName = userName;
         users[socket.id] = socket.userName;
-        //console.log(users[socket.id])
         io.to(room).emit("chat message", `${socket.userName}が参加しました`);
         io.emit("show_online", users);
-        // console.log(users);
-        //socket.broadcast.emit("user list",socket.userName);
     });
     //room
     socket.on("setRoomName", (roomName, name2) => { //name2(部屋切り替えた人)
-        socket.leave(room); //tuika
+        socket.leave(room);
         room = roomName;
         socket.join(room);
         io.emit("show_online", users);
@@ -56,11 +72,7 @@ io.on('connection', (socket) => {
         let stream = fs.createReadStream("./new_store.csv", "utf8");
         let reader = readline.createInterface({ input: stream });
         reader.on("line", (data) => {
-            //if (data.indexOf(room)) {
-            var array = data.split(',');
-            // console.log(array[0]);//部屋名
-            // console.log(array[1]);//name
-            // console.log(array[2]);//メッセ―ジ
+            let array = data.split(',');
             if (array[0].indexOf(room) !== -1) {
                 io.to(room).emit('restore message', array[2] + "【＠" + array[1] + "】", name2, array[3]); //切り替え先の部屋の過去チャット復元
                 array = [];
@@ -99,7 +111,6 @@ io.on('connection', (socket) => {
         }
     });
     socket.on('image', (imageData) => {
-        //socket.broadcast.emit('image', imageData);
         io.to(room).emit('image', imageData);
         makelog("画像ファイル");
     });
@@ -108,10 +119,6 @@ io.on('connection', (socket) => {
         io.emit('DM create', DM, receiver, sender);
     });
 
-    // ?
-    // socket.on("add channel", (ch) => {
-    //     socket.broadcast.emit('ch create', ch);
-    // });
 
     let nowTyping = 0;
     socket.on("start typing", () => {
@@ -128,6 +135,10 @@ io.on('connection', (socket) => {
     });
     //ログ保存
     function makelog(msg_stamp) {
+        if(first){
+            discordAlert();
+            first = false;
+        }
         let now = new Date();
         mlog.push(msg_stamp)
         mlog.push(socket.userName)

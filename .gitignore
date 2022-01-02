@@ -2,3 +2,5 @@
 node_modules/
 # クレデンシャルが含まれているため
 public/firebase.js
+
+new_store.csv
