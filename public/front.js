@@ -76,13 +76,8 @@ const hash = location.hash;
 name1 = hash.substr(9);
 let music = new Audio("./sound.mp3");
 
-if (name1 === '') {
-    alert('ログインをやり直してください')
-    location.replace('http://localhost:3000/login');
+if (!(hash == '#approval' + name1) && name1 === '') {
 
-}
-if (hash == '#approval' + name1) {
-} else {
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 }
