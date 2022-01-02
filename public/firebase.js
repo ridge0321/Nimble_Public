@@ -42,8 +42,6 @@ const fileInput = document.getElementById('file');
 const addRoombutton = document.getElementById("addRoombutton");
 //チャンネルリスト重複防止用のset
 let chSet = new Set(["general", "random"]);
-//sound
-let music = new Audio("./sound.mp3");
 //firebaseデータ登録
 
 
@@ -72,7 +70,7 @@ function dataSendToDB(txt, type, fName, url) {
 }
 
 //メッセージ送信時発火
-$("#send").on("click", function() {
+$("#send").on("click", function () {
     let inputVal = $("#input").val();
     console.log(inputVal.slice(0, 4) + 'slice')
     if (inputVal.slice(0, 4) == 'http') { //リンクを検出
@@ -80,7 +78,6 @@ $("#send").on("click", function() {
     } else {
         dataSendToDB(inputVal, 'msg', '0', '0');
     }
-    music.play();  // 再生
 });
 
 
@@ -92,40 +89,40 @@ $("#send").on("click", function() {
 //2.storageに保存されたファイルのurlを取得
 //3.取得したurlをRealtimeDatabaseに記録
 
-const handleFileSelect = async() => {
-        const files = fileInput.files;
-        for (let i = 0; i < files.length; i++) {
+const handleFileSelect = async () => {
+    const files = fileInput.files;
+    for (let i = 0; i < files.length; i++) {
 
-            let file = files[i];
-            let fileName = files[i].name;
-            const storage = getStorage();
-            const imageRef = sRef(storage, fileName);
+        let file = files[i];
+        let fileName = files[i].name;
+        const storage = getStorage();
+        const imageRef = sRef(storage, fileName);
 
-            //1.ファイルをstorageへ送信
-            await uploadBytes(imageRef, file).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-            //2.storageに保存されたファイルのurlを取得
-            let fileUrl = await fileUrlDownloader(fileName); //アップロード完了後にUrlを取りにいく
+        //1.ファイルをstorageへ送信
+        await uploadBytes(imageRef, file).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
+        //2.storageに保存されたファイルのurlを取得
+        let fileUrl = await fileUrlDownloader(fileName); //アップロード完了後にUrlを取りにいく
 
-            //3.取得したurlをRealtimeDatabaseに記録
-            if (checkImgExt(fileName)) {
-                dataSendToDB(fileName, 'img', fileName, fileUrl);
-            } else {
-                dataSendToDB(fileName, 'other', fileName, fileUrl);
-            };
+        //3.取得したurlをRealtimeDatabaseに記録
+        if (checkImgExt(fileName)) {
+            dataSendToDB(fileName, 'img', fileName, fileUrl);
+        } else {
+            dataSendToDB(fileName, 'other', fileName, fileUrl);
+        };
 
-
-        }
 
     }
-    // ファイル選択時にhandleFileSelectを発火
+
+}
+// ファイル選択時にhandleFileSelectを発火
 fileInput.addEventListener('change', handleFileSelect);
 
 
 //fileNameと同じ名前のファイルのリンクをfirebase storageから取得＋リンクをセットするメソッドを呼び出し
 //getDownloadURLの呼び出し＋Urlを返す
-const fileUrlDownloader = async(fileName) => {
+const fileUrlDownloader = async (fileName) => {
     // console.log(fileName);
     const storage = getStorage();
     let getUrl; //戻り値格納用変数
@@ -158,14 +155,15 @@ const fileUrlDownloader = async(fileName) => {
 function contentAdd(channel, myNumber) {
     const dbRef = ref(db, 'chat/' + channel);
 
-    onChildAdded(dbRef, function(data) {
+    onChildAdded(dbRef, function (data) {
+        //music.play(); メッセージ受け取った時サウンド(チャンネル移動の時も音が鳴ってしまった)
         let log = data.val();
         if (killNumber == myNumber) { //最新のonChildAddedか照合
             appendContent(log.uname, log.text, log.dataType, log.fileUrl, log.timestamp, log); //チャット欄へデータの追加
+
         } else {
             return;
         }
-
     })
 
     onChildChanged(ref(db, 'chat/' + channel), (data) => {
@@ -178,6 +176,7 @@ function contentAdd(channel, myNumber) {
         } else {
             return;
         }
+
     });
 
 
@@ -192,14 +191,13 @@ function changeRoom(e) { //部屋移動
     console.log(killNumber + ":killNumber");
     console.log(e.target.id);
     contentAdd(e.target.id, killNumber);
-
 }
 
 //チャンネル移動用のボタンのリストを作成
 function chListLoad() {
     const chListRef = ref(db, 'channelList');
 
-    onChildAdded(chListRef, function(data) {
+    onChildAdded(chListRef, function (data) {
         let list = data.val();
 
         console.log(list.channelName);
@@ -238,7 +236,7 @@ function channelAdd() {
 
 }
 
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
     if (event.target.classList.contains("stampBtn")) {
 
         console.log(event.target.parentNode);

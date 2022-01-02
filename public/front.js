@@ -1,16 +1,16 @@
-$(function() {
+$(function () {
     $("#select2").select2({
         width: "50%",
         placeholder: "#,@検索",
         background: "blue",
     });
 });
-$(function() {
-    $(".js-modal-open").on("click", function() {
+$(function () {
+    $(".js-modal-open").on("click", function () {
         $(".js-modal").fadeIn();
         return false;
     });
-    $(".js-modal-close").on("click", function() {
+    $(".js-modal-close").on("click", function () {
         $(".js-modal").fadeOut();
         return false;
     });
@@ -26,7 +26,7 @@ function addprivateroom() {
     $(".channel_list").prepend(
         `<button id="bt" >#${inputValue}</button><br>`
     );
-    $("#bt").click(inputValue, function(e) {
+    $("#bt").click(inputValue, function (e) {
         moveToRoom(inputValue);
     });
     $("#Channel").append(`<option>#${inputValue}</option>`);
@@ -73,15 +73,17 @@ let name = "";
 let userarray = [];
 let room_name = "general";
 const hash = location.hash;
-name = hash.substr( 9 );
+name = hash.substr(9);
+let count = 0;
+let music = new Audio("./sound.mp3");
 
-if(name === ''){
+if (name === '') {
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 
 }
-if(hash == '#approval'+name){
-}else{
+if (hash == '#approval' + name) {
+} else {
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 }
@@ -131,7 +133,7 @@ socket.on("image", (imageData) => {
         var ctx = canvas.getContext("2d");
         var img = new Image();
         img.src = imageData;
-        img.onload = function() {
+        img.onload = function () {
             canvas.width = img.width;
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
@@ -176,6 +178,7 @@ function sendImage(event) {
 //appendMessage拡張版
 //引数のデータタイプに応じた表示に切り替えてappendする
 const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => {
+    count++;
     var time = timestamp.slice(5, -3);
     let n = 0;
     const item = document.createElement("li");
@@ -215,7 +218,7 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
 
             link.textContent = text;
             link.href = text;
-            link.className="links";
+            link.className = "links";
             console.log(text)
             link.target = "_blank";
             subText.textContent = "【@" + sender_name + "】" + time;
@@ -233,7 +236,7 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
             urlLink.href = fileUrl;
             urlLink.download = "";
             urlLink.target = "_blank";
-            urlLink.className="links";
+            urlLink.className = "links";
             subText.textContent = "【@" + sender_name + "】" + time;
             item.appendChild(urlLink);
             item.appendChild(subText);
@@ -253,16 +256,17 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
                 stampBtn.innerHTML = "👎";
                 break;
             case 2:
-                stampBtn.innerHTML = "🖕";
+                stampBtn.innerHTML = "💓";
                 break;
             case 3:
-                stampBtn.innerHTML = "👋";
+                stampBtn.innerHTML = "🌟";
                 break;
         }
         stampBtn.dataset.stampnumber = "stamp0" + (index + 1);
 
 
         item.appendChild(stampBtn);
+
     }
 
 
@@ -277,14 +281,13 @@ const appendContent = (sender_name, text, dataType, fileUrl, timestamp, log) => 
     item.dataset.stamp03 = log.stamp.stamp03;
     item.dataset.stamp04 = log.stamp.stamp04;
 
-    //-------ここまで削除で一旦エラー消えるーーーーーーーーーーー
-
     let stampElement = document.createElement('div');
     stampElement.id = 'stampLog' + log.uniqueKey;
     appendStamp(stampElement, item);//スタンプログ追加
 
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
+    music.play();
 }
 
 
@@ -323,10 +326,10 @@ const updateContent = (log) => {
 }
 
 const appendStamp = (appendElement, updateTarget) => {// スタンプログ追加 スタンプログを格納する要素とその親要素を受け取る
-    appendElement.innerHTML = ''; 
+    appendElement.innerHTML = '';
 
     let stamps = [updateTarget.dataset.stamp01, updateTarget.dataset.stamp02, updateTarget.dataset.stamp03, updateTarget.dataset.stamp04];
-    let stampIcons = ['👍', '👎', '🖕', '👋'];
+    let stampIcons = ['👍', '👎', '💓', '🌟'];
 
     console.log(stamps);
 
@@ -352,12 +355,12 @@ const restoreMessage = (message, timestamp) => {
     let n = 0;
     const item = document.createElement("li");
     item.className = "msglist";
-    item.onmouseover = function() {
+    item.onmouseover = function () {
         if (n == 0) {
             item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
             item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
-            item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">🖕</button>`;
-            item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">👋</button>`;
+            item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">💓</button>`;
+            item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">🌟</button>`;
         }
         n = 1;
     };
@@ -385,7 +388,7 @@ socket.on("stop typing", () => {
 socket.on("DM create", (dm, receiver_1, sender_1) => {
     if (name == receiver_1 || name == sender_1) {
         $(".DM_list").prepend(`<button id="bt_dm" >📩${dm}</button><br>`);
-        $("#bt_dm").click(dm, function(e) {
+        $("#bt_dm").click(dm, function (e) {
             moveToRoom(dm);
         });
     }
