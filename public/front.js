@@ -69,25 +69,25 @@ const typingAlert = document.querySelector(".typing_alert");
 
 let channelBtn = document.getElementsByClassName('channel_list')[0];
 
-let name = "";
+let name1 = "";
 let userarray = [];
 let room_name = "general";
 const hash = location.hash;
-name = hash.substr(9);
+name1 = hash.substr(9);
 let count = 0;
 let music = new Audio("./sound.mp3");
 
-if (name === '') {
+if (name1 === '') {
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 
 }
-if (hash == '#approval' + name) {
+if (hash == '#approval' + name1) {
 } else {
     alert('ログインをやり直してください')
     location.replace('http://localhost:3000/login');
 }
-$("#User").append($("<option>").html("@" + name));
+$("#User").append($("<option>").html("@" + name1));
 
 let onlineUsers = [];
 
@@ -104,7 +104,7 @@ socket.on("chat message", (msg) => {
 });
 socket.on("restore message", (message, name2, time) => {
     //部屋移動先メッセ復元
-    if (name == name2) {
+    if (name1 == name2) {
         // restoreMessage(message, time);
         //とりあえずコメントアウト
 
@@ -113,7 +113,7 @@ socket.on("restore message", (message, name2, time) => {
 });
 
 socket.on("connect", () => {
-    socket.emit("setUserName", name);
+    socket.emit("setUserName", name1);
 
 });
 
@@ -386,7 +386,7 @@ socket.on("stop typing", () => {
 // });
 
 socket.on("DM create", (dm, receiver_1, sender_1) => {
-    if (name == receiver_1 || name == sender_1) {
+    if (name1 == receiver_1 || name1 == sender_1) {
         $(".DM_list").prepend(`<button id="bt_dm" >📩${dm}</button><br>`);
         $("#bt_dm").click(dm, function (e) {
             moveToRoom(dm);
@@ -404,7 +404,7 @@ function moveToRoom(roomname) {
     //room_name_set(roomname);
     $("#center > h3").text("#" + roomname);
     $("li").remove(); //白紙に戻す
-    socket.emit("setRoomName", roomname, name);
+    socket.emit("setRoomName", roomname, name1);
 }
 
 //
