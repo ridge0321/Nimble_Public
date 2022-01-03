@@ -50,7 +50,7 @@ function dataSendToDB(txt, type, fName, url) {
     let now = new Date();
     const newPostRef = push(ref(db, 'chat/' + room_name)); //ユニークKEYを生成
     let msg = {
-        uname: name,
+        uname: name1,
         text: txt,
         channel: room_name,
         dataType: type,
