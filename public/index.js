@@ -37,8 +37,8 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/login/login.html');
 
 });
-app.get('/video', (req, res) => {
-    res.sendFile(__dirname + '/video/index.html');
+app.get('/Nimblevideo', (req, res) => {
+    res.sendFile(__dirname + '/Nimblevideo/index.html');
 
 });
 app.get('/', (req, res) => {
