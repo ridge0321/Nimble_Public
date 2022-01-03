@@ -1,0 +1,165 @@
+/* normalize */
+body { margin: 0; }
+
+#header{
+  /* background: linear-gradient(-135deg, #E4A972, #9941D8); */
+  background: linear-gradient(-135deg, #090a09, #03f503);
+  padding-bottom: 10px;
+}
+/* global styles */
+video {
+  background-color: #111;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.note {
+  text-align: center;
+}
+
+.meta {
+  text-align: center;
+  font-size: .8rem;
+  color: gray;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 980px;
+}
+
+/* p2p-media styles */
+.p2p-media {
+  /* display: flex; */
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+
+}
+
+.p2p-media .remote-stream {
+  float: left;
+  width: 50%;
+}
+
+.p2p-media .local-stream {
+  float: left;
+  width: 50%;
+}
+
+/* p2p-data styles */
+.p2p-data {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  margin: 0 8px;
+}
+
+.p2p-data .messages {
+  background-color: #eee;
+  min-height: 100px;
+  padding: 8px;
+  margin-top: 0;
+}
+
+/* room */
+.room {
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  gap: 8px;
+  margin: 0 8px;
+}
+
+.room .remote-streams {
+  background-color: #f6fbff;
+}
+
+.room .messages {
+  background-color: #eee;
+  min-height: 100px;
+  padding: 8px;
+  margin-top: 0;
+}
+
+#logo{
+  width: 60px;
+  height:60px;
+}
+
+#text{
+  text-align: center;
+  margin-top: 10px;
+}
+
+#js-call-triger{
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 30px;
+}
+
+#js-remote-id{
+  font-size: 20px;
+  width:40%;
+  margin-right: 100px;
+}
+
+#send{
+  display: none;
+}
+
+#list {
+  padding:0.5em;
+  list-style-type:none;
+}
+#list li {
+  position:relative;
+  padding: 0em 0.3em 0em 1.5em;
+  border-bottom: 1px solid rgb(91, 228, 125);
+  color: #eee;
+}
+#list li::before,#list li::after {
+  position: absolute;
+  content: '';
+  display: inline-block;
+}
+#list li::after {
+  top: 0.3em;
+  left: 0em;
+  width: 15px;
+  height: 15px;
+  background-color: #0af716;
+  border-radius: 25%;
+}
+#list li::before {
+  position: absolute;
+  top: 50%;
+  left: 0.8em;
+  height: 0;
+  width: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #02fa02;
+  transform: translateY(-50%);
+}
+
+.bg{
+  background-color: #272927;
+}
+
+#start-btn,#stop-btn{
+  color: #f2faf2;
+  background-color: #111411;
+  font: bold;
+}
+p{
+  color: #f2faf2;
+}
+#js-local-id{
+  color: #f2faf2;
+}
