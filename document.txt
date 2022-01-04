@@ -81,3 +81,5 @@ kitagawaブランチの変更テスト
 9:56
 
 yoshioka branch test 0103 0024
+
+yoshioka branch test2 0104 1027
