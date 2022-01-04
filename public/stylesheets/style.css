@@ -124,7 +124,8 @@ header > input {
 }
 .adduser {
   float: right;
-  margin-right: 30px;
+  margin-right:130px;
+
 }
 .addbutton {
   color: #a6a8b3;
@@ -132,7 +133,6 @@ header > input {
   margin-top: 20px;
   margin-left: 10px;
   cursor: pointer;
-
 }
 #center > h3 {
   border-bottom: 1px solid;
@@ -337,5 +337,38 @@ color: skyblue;
     height: auto;
     width: auto;
     
+  }
+  #left{
+    width: 29%;
+  }
+  #roomtext{
+width: 80%;  
+}
+  #privateroomtext{
+    width: 80%;  
+  }
+
+  #container {
+    grid-template-rows: 420px 200px;
+    grid-template-columns: 125px 1fr;
+  }
+  #date{
+    display: none;
+  }
+  #messages > li{
+    margin:auto;
+    margin-top: 5px;
+  }
+  .appendImg{
+    width: 80%;
+    height: 80%;
+  }
+  .stampBtn{
+    display: none;
+  }
+  .adduser {
+    float: right;
+    margin-right:30px;
+  
   }
 }
