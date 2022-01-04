@@ -30,7 +30,7 @@
         placeholder="Password"
         onclick="signIn()"
       />
-      <input type="text" id="user-name" placeholder="userID" />
+      <input type="text" id="user-name" placeholder="userID" maxlength="10" required pattern="^[0-9]+$"/>
       <span class=""></span>
       <input class="bt" type="button" value="Sign In" onclick="signUp()" />
       <input class="bt" type="button" value="Log In" onclick="signIn()" />
