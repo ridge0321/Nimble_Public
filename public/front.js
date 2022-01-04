@@ -79,11 +79,14 @@ let music = new Audio("./sound.mp3");
 if (!(hash == '#approval' + name1) && name1 === '') {
 
     alert('ログインをやり直してください')
-    location.replace('http://localhost:3000/login');
+    location.replace(location.protocol+"//"+location.host+'/login');
 }
 $("#User").append($("<option>").html("@" + name1));
 
 let onlineUsers = [];
+
+console.log(location.protocol+"//"+location.host+" @sample ");
+
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();

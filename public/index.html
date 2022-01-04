@@ -123,7 +123,7 @@
             name="buttonName"
             class="addbutton"
             value="+"
-            onClick="window.open('localhost:3000','_blank')"
+            onClick="window.open(location.protocol+'//'+location.host,'_blank')" 
           />
 
         </div>
@@ -147,7 +147,7 @@
 
         <form id="form" action="">
           <!-- <textarea class="typing_alert"></textarea> -->
-          <i id="video" type=“button” onclick="window.open('//localhost:3000/Nimblevideo')"><img src="images/video.svg" alt=""></i>
+          <i id="video" type=“button” onclick="window.open(location.protocol+'//'+location.host+'/Nimblevideo')"><img src="images/video.svg" alt=""></i>
 
           <input
             type="text"

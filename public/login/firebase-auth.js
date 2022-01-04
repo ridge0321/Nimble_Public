@@ -35,7 +35,7 @@ var config = {
         //ログインページで入力したuserIDをhashに設定することでログインスルーを防いでいる
         let userhash = document.getElementById('user-name').value
         let hashkey = 'approval'
-        location.replace('http://localhost:3000#'+hashkey+userhash);
+        location.replace(location.protocol+"//"+location.host+'#'+hashkey+userhash);
 
       }).catch(function(error) {
         var errorCode = error.code;
