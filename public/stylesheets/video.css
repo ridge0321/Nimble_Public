@@ -143,13 +143,13 @@ video {
   height: 0;
   width: 0;
   border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
   border-left: 8px solid #02fa02;
   transform: translateY(-50%);
 }
 
 .bg{
   background-color: #272927;
+  padding-bottom: 30px;
 }
 
 #start-btn,#stop-btn{
@@ -162,4 +162,16 @@ p{
 }
 #js-local-id{
   color: #f2faf2;
+}
+@media screen and (max-width: 480px) {/*画面幅が480pxまでの時*/
+  #header{
+    /* background: linear-gradient(-135deg, #E4A972, #9941D8); */
+    padding-bottom: 1px;
+  }
+  #js-remote-id{
+    font-size: 15px;
+    width:100%;
+    margin-right: 100px;
+    margin-bottom: 5px;
+  }
 }

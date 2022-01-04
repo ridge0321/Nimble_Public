@@ -325,11 +325,17 @@ color: skyblue;
   border-color:white;
 }
 /* 文字サイズ調整 */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 480px) {/*スマホ用画面幅が480pxまでの時*/
+
   .clock-date {
-    font-size: 5vw;
+    font-size: 15px;
   }
   .clock-time {
-    font-size: 20vw;
+    font-size: 20px;
+  }
+  #form > input{
+    height: auto;
+    width: auto;
+    
   }
 }
