@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/ja.js"></script>
     <!-- //tuika -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
 
     <!-- //tuika -->
 
@@ -34,7 +35,7 @@
     <div id="container">
         <div id="left">
             <div class="online">
-                <img src="images/logo.PNG" id="logo">
+                <img src="images/logo.jpg" id="logo">
                 <p class="js-modal-open" href="">下書き</p>
                 <div class="modal js-modal">
                     <div class="modal__bg js-modal-close"></div>
@@ -96,17 +97,17 @@
           />
           <input type="text" id="DMtext" placeholder="【DM】送りたい人の名前" /> -->
 
-          <p>チームメンバー</p>
+          <p>チームメンバ</p>
           <ul class="online_user"></ul>
 
-          <p class="adduser">チームメンバーを追加</p>
+          <p class="adduser">招待</p>
 
           <input
             type="button"
             name="buttonName"
             class="addbutton"
             value="+"
-            onClick="window.open(location.protocol+'//'+location.host,'_blank')" 
+            onClick="window.open(`https://twitter.com/intent/tweet?url=https://nimble-test01.herokuapp.com&text=%E6%8B%9B%E5%BE%85`,'_blank')" 
           />
 
         </div>
@@ -121,7 +122,6 @@
 
       <div id="center">
         <h3># general</h3>
-        <button id="date"></button>
         <ul id="messages"></ul>
       </div>
 

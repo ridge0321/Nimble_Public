@@ -12,13 +12,15 @@
       crossorigin="anonymous"
     />
     <script
-  src="https://code.jquery.com/jquery-3.6.0.js"
-  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-  crossorigin="anonymous"></script>
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
   </head>
   <body>
     <div id="header">
-      <img src="../images/logo.png" alt="" id="logo" />
+      <img src="../images/logo.jpg" alt="" id="logo" />
     </div>
     <div class="bg">
       <div class="container">
@@ -116,33 +118,30 @@
       } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
       // Your web app's Firebase configuration
       const firebaseConfig = {
-        apiKey: "AIzaSyBZxjwX0yd15FkvGzoVZlXgRdIQaJgH7j4",
-        authDomain: "sky-way-d053d.firebaseapp.com",
-        databaseURL: "https://sky-way-d053d-default-rtdb.firebaseio.com",
-        projectId: "sky-way-d053d",
-        storageBucket: "sky-way-d053d.appspot.com",
-        messagingSenderId: "256426296650",
-        appId: "1:256426296650:web:66eacc287adffb69496db3"
+        apiKey: "AIzaSyBxeYMqqPVVPVXQF0D4Lbgl7qgeb7ZxsrE",
+        authDomain: "nimble-video-4d835.firebaseapp.com",
+        databaseURL: "https://nimble-video-4d835-default-rtdb.firebaseio.com",
+        projectId: "nimble-video-4d835",
+        storageBucket: "nimble-video-4d835.appspot.com",
+        messagingSenderId: "829072861361",
+        appId: "1:829072861361:web:13bd45c2609080c8905a90",
       };
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
       const dbRef = ref(db, "chat");
 
       document.getElementById("send").addEventListener("click", function () {
-        //document.getElementById("check").addEventListener("change", function () {
         const msg = {
           uname: "taro",
           text: finalTranscript,
         };
         const newPostRef = push(dbRef);
-        console.log(msg);
         set(newPostRef, msg);
       });
 
       onChildAdded(dbRef, function (d) {
-        $('#list').prepend(`<li>${d.val().text}</li>`)
+        $("#list").prepend(`<li>${d.val().text}</li>`);
       });
     </script>
-    <!-- 追加 -->
   </body>
 </html>

@@ -34,6 +34,11 @@ var config = {
         document.getElementById('log').innerText = 'サインイン成功';
         //ログインページで入力したuserIDをhashに設定することでログインスルーを防いでいる
         let userhash = document.getElementById('user-name').value
+        while(userhash.match(/[^A-Z^a-z\d\-]/))
+        {
+          alert("半角英数で入力してください。")
+          location.replace(location.protocol+"//"+login);
+        }
         let hashkey = 'approval'
         location.replace(location.protocol+"//"+location.host+'#'+hashkey+userhash);
 

@@ -422,16 +422,16 @@ const file = document.getElementById("file");
 // file.addEventListener("change", sendImage, false);
 
 //日付表示
-var today = new Date();
-let x = 0;
-var month = today.getMonth() + 1;
-var week = today.getDay();
-var day = today.getDate();
+// var today = new Date();
+// let x = 0;
+// var month = today.getMonth() + 1;
+// var week = today.getDay();
+// var day = today.getDate();
 
-var week_ja = new Array("日", "月", "火", "水", "木", "金", "土");
+// var week_ja = new Array("日", "月", "火", "水", "木", "金", "土");
 
-let datetext = month + "月" + day + "日 " + "(" + week_ja[week] + ")";
-$("#date").text(datetext);
+// let datetext = month + "月" + day + "日 " + "(" + week_ja[week] + ")";
+// $("#date").text(datetext);
 //textareaコピーボタン
 function cp() {
     let txt = document.getElementById("copy");
