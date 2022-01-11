@@ -1,35 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Nimble</title>
     <link rel="icon" type="image/x-icon" href=".//images/logo.png">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"
-    />
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/ja.js"
-    ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/i18n/ja.js"></script>
     <!-- //tuika -->
 
     <!-- //tuika -->
 
     <link rel="stylesheet" href="stylesheets/style.css" />
-  </head>
+</head>
 
-  <body>
+<body>
     <header>
-      <select id="select2">
+        <select id="select2">
         <option></option>
         <optgroup label="channel" id="Channel">
           <option value="general" onclick="moveToRoom(`general`)">
@@ -41,41 +29,35 @@
       </select>
     </header>
     <script>
-
     </script>
     <div class="space"></div>
     <div id="container">
-      <div id="left">
-        <div class="online">
-            <img src="images/logo.PNG" id="logo">         
-          <p class="js-modal-open" href="">下書き</p>
-          <div class="modal js-modal">
-            <div class="modal__bg js-modal-close"></div>
-            <div class="modal__content">
-              <textarea
-                name=""
-                id="copy"
-                cols="60"
-                rows="10"
-                style="font-size: 20px"
-              ></textarea
+        <div id="left">
+            <div class="online">
+                <img src="images/logo.PNG" id="logo">
+                <p class="js-modal-open" href="">下書き</p>
+                <div class="modal js-modal">
+                    <div class="modal__bg js-modal-close"></div>
+                    <div class="modal__content">
+                        <textarea name="" id="copy" cols="60" rows="10" style="font-size: 20px"></textarea
               ><br />
               <a class="js-modal-close" href="">閉じる</a>
               <button onclick="cp()">コピー</button>
             </div>
           </div>
           <details open>
-            <summary>チャンネル</summary>
+            <summary id=ch-summary>チャンネル</summary>
             <div class="channel_list">
               <button onclick="moveToRoom(`general`)" id="general"># general</button><br />
               <button onclick="moveToRoom(`random`)" id="random"># random</button><br />
             </div>
           </details>
-          <details open>
+          <!-- <details open>
             <summary>ダイレクトメッセージ</summary>
             <div class="DM_list"></div>
-          </details>
-          <input
+          </details> -->
+          <div id=addroom>
+            <input
             type="button"
             name="buttonName"
             class="addbutton"
@@ -88,8 +70,9 @@
             id="roomtext"
             placeholder="#チャンネルを追加する"
           />
+          </div>
           <br />
-          <input
+          <!-- <input
             type="button"
             name="buttonName"
             class="addbutton"
@@ -101,7 +84,7 @@
             type="text"
             id="privateroomtext"
             placeholder="#プライベートchを追加"
-          />
+          /> -->
           <!-- <br /> -->
           <!-- <input
             type="button"
@@ -147,16 +130,11 @@
 
         <form id="form" action="">
           <!-- <textarea class="typing_alert"></textarea> -->
-          <i id="video" type=“button” onclick="window.open(location.protocol+'//'+location.host+'/Nimblevideo')"><img src="images/video.svg" alt=""></i>
+                        <i id="video" type=“button” onclick="window.open(location.protocol+'//'+location.host+'/Nimblevideo')"><img src="images/video.svg" alt=""></i>
 
-          <input
-            type="text"
-            id="input"
-            placeholder="#チャンネルにメッセージを送信する"
-            autocomplete="off"
-          /><button id="send">Send</button>
+                        <input type="text" id="input" placeholder="#チャンネルにメッセージを送信する" autocomplete="off" /><button id="send">Send</button>
 
-          <label id="fileform">
+                        <label id="fileform">
             <img
               src="http://drive.google.com/uc?export=view&id=1wwy-KGgx5QOl5qnk84TgqPKWEXLeaT15"
               alt=""
@@ -164,54 +142,55 @@
             <input type="file" id="file" style="display: none" />
 
           </label>
-        </form>
-      </div>
-    </div>
-    
-    <script>
-      const clock = () => {
-          // 現在の日時・時刻の情報を取得
-          const d = new Date();
-        
-          // 年を取得
-          let year = d.getFullYear();
-          // 月を取得
-          let month = d.getMonth() + 1;
-          // 日を取得
-          let date = d.getDate();
-          // 曜日を取得
-          let dayNum = d.getDay();
-          const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-          let day = weekday[dayNum];
-          // 時を取得
-          let hour = d.getHours();
-          // 分を取得
-          let min = d.getMinutes();
-          // 秒を取得
-          let sec = d.getSeconds();
-        
-          // 1桁の場合は0を足して2桁に
-          month = month < 10 ? "0" + month : month;
-          date = date < 10 ? "0" + date : date;
-          hour = hour < 10 ? "0" + hour : hour;
-          min = min < 10 ? "0" + min : min;
-          sec = sec < 10 ? "0" + sec : sec;
-        
-          // 日付・時刻の文字列を作成
-          let today = `${year}.${month}.${date} ${day}`;
-          let time = `${hour}:${min}:${sec}`;
-        
-          // 文字列を出力
-          document.querySelector(".clock-date").innerText = today;
-          document.querySelector(".clock-time").innerText = time;
-        };
-        
-        // 1秒ごとにclock関数を呼び出す
-        setInterval(clock, 1000);
-    </script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="front.js"></script>
-    <script src="firebase.js" type="module"></script>
-    <link rel="stylesheet" href="https://fonts.google.com/icons?family=Material+Icons">
-  </body>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    const clock = () => {
+                        // 現在の日時・時刻の情報を取得
+                        const d = new Date();
+
+                        // 年を取得
+                        let year = d.getFullYear();
+                        // 月を取得
+                        let month = d.getMonth() + 1;
+                        // 日を取得
+                        let date = d.getDate();
+                        // 曜日を取得
+                        let dayNum = d.getDay();
+                        const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+                        let day = weekday[dayNum];
+                        // 時を取得
+                        let hour = d.getHours();
+                        // 分を取得
+                        let min = d.getMinutes();
+                        // 秒を取得
+                        let sec = d.getSeconds();
+
+                        // 1桁の場合は0を足して2桁に
+                        month = month < 10 ? "0" + month : month;
+                        date = date < 10 ? "0" + date : date;
+                        hour = hour < 10 ? "0" + hour : hour;
+                        min = min < 10 ? "0" + min : min;
+                        sec = sec < 10 ? "0" + sec : sec;
+
+                        // 日付・時刻の文字列を作成
+                        let today = `${year}.${month}.${date} ${day}`;
+                        let time = `${hour}:${min}:${sec}`;
+
+                        // 文字列を出力
+                        document.querySelector(".clock-date").innerText = today;
+                        document.querySelector(".clock-time").innerText = time;
+                    };
+
+                    // 1秒ごとにclock関数を呼び出す
+                    setInterval(clock, 1000);
+                </script>
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="front.js"></script>
+                <script src="firebase.js" type="module"></script>
+                <link rel="stylesheet" href="https://fonts.google.com/icons?family=Material+Icons">
+</body>
+
 </html>

@@ -333,3 +333,11 @@ color: skyblue;
     font-size: 20vw;
   }
 }
+
+#ch-summary{
+  margin-bottom: 0.5rem;
+}
+#addroom{
+  /* margin-top: 1rem; */
+  margin-bottom: 1rem;
+}
