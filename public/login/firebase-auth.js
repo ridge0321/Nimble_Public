@@ -2,8 +2,8 @@
 
 // Firebaseの初期化
 var config = {
-  apiKey: "AIzaSyAIuLloFn4zxRypD1w8zlDnYBW3zuU9gD4",
-  authDomain: "nimble01-f0eeb.firebaseapp.com",
+  // apiKey: ,
+  // authDomain: ,
 };
 
 firebase.initializeApp(config);

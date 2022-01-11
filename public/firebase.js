@@ -16,13 +16,13 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAIuLloFn4zxRypD1w8zlDnYBW3zuU9gD4",
-    authDomain: "nimble01-f0eeb.firebaseapp.com",
-    databaseURL: "https://nimble01-f0eeb-default-rtdb.firebaseio.com",
-    projectId: "nimble01-f0eeb",
-    storageBucket: "nimble01-f0eeb.appspot.com",
-    messagingSenderId: "288344655030",
-    appId: "1:288344655030:web:cfabb2981415134cbf5217"
+    // apiKey: ,
+    // authDomain: ,
+    // databaseURL: ,
+    // projectId: ,
+    // storageBucket: ,
+    // messagingSenderId: ,
+    // appId: 
 };
 
 const app = initializeApp(firebaseConfig);
