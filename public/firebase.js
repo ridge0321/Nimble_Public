@@ -16,21 +16,19 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBZxjwX0yd15FkvGzoVZlXgRdIQaJgH7j4",
-    authDomain: "sky-way-d053d.firebaseapp.com",
-    databaseURL: "https://sky-way-d053d-default-rtdb.firebaseio.com",
-    projectId: "sky-way-d053d",
-    storageBucket: "sky-way-d053d.appspot.com",
-    messagingSenderId: "256426296650",
-    appId: "1:256426296650:web:66eacc287adffb69496db3"
+    apiKey: "AIzaSyAIuLloFn4zxRypD1w8zlDnYBW3zuU9gD4",
+    authDomain: "nimble01-f0eeb.firebaseapp.com",
+    databaseURL: "https://nimble01-f0eeb-default-rtdb.firebaseio.com",
+    projectId: "nimble01-f0eeb",
+    storageBucket: "nimble01-f0eeb.appspot.com",
+    messagingSenderId: "288344655030",
+    appId: "1:288344655030:web:cfabb2981415134cbf5217"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app); //RealtimeDBに接続
 chListLoad();
 contentAdd('general', 0); //初期設定 generalに入室
-
-//お試し
 
 
 
@@ -399,62 +397,3 @@ function stampEvent(e) {
 
 
 
-// let testbtn = document.getElementById('testbtn');
-// testbtn.addEventListener('click', tester);
-
-// function tester() {
-//     let now = new Date();
-//     let msg = {
-//         uname: 'update004',
-//         text: 'update',
-//         channel: room_name,
-//         dataType: 'msg',
-//         fileName: 'update',
-//         fileUrl: 'update',
-//         timestamp: now.toLocaleString(), //現在時刻をタイムスタンプの値に設定
-//         stamp: {
-//             stamp01: '1',
-//             stamp02: '10',
-//             stamp03: '2',
-//             stamp04: '3'
-//         }
-//     };
-
-//     const PostRef = ref(db, 'chat/general/-MpjNUtJs0YXzkDL4L3j');
-//     set(PostRef, msg); //"chat"にユニークKEYをつけてオブジェクトデータを登録
-//     console.log('update?');
-// }
-
-
-
-//ファイル送受信のプロセス
-//---------------------
-//1.ファイルをstorageへ送信
-//2.storageに保存されたファイルのurlを取得
-//3.取得したurlをRealtimeDatabaseに記録
-//4.RDが各ユーザーに追加されたデータを送る  （onChildAdded）
-//5.送信されたデータをメッセージ・画像・ファイルに応じた方法で表示 (appendMessage等)
-
-
-//onChildAdded と チャンネル移動 について
-//----------------------------------
-//起動時に ①既存データを取得 ②データ更新されるたびに新データを取得し処理を行う
-//①を利用してデータを取り込むことで部屋移動の際のデータ表示を行いたい
-//しかし、部屋移動毎に②の部分が残り待機してしまう
-//結果、複数回部屋移動を行なったのち新しく投稿を行うと、待機していた移動回数分のonChildAddedがその数だけappendContentを行い、投稿がダブる
-//
-//解決策として、
-//静的な変数killNumberを用意する。
-//killNumberの値は部屋移動毎に ＋１ される
-//onChildAddedCollerが呼び出される際、killNumberを渡し、これをmyNumberとして保持させる
-//appendContentが行われる際、myNumberとkillNumberの照合を行い、結果がfalseの場合appendContentは行わないようにする
-//（最新のkillNumberを保持していないonChildAddedは処理を持たない状態になる）
-
-
-//チャンネルリストの作成・更新
-//---------------------
-// window読み込み時にonChildAddedで'channelList'を参照
-// 取得したデータをボタンにしてチャンネルリストに追加
-// チャンネル追加フォームに入力された値を'channelList'に送信
-// onChildAddedがリストの変更を検知し自動で更新
-// 重複したチャンネル名が存在しないようにチャンネル追加の前にsetで検証

@@ -16,39 +16,6 @@ $(function () {
     });
 });
 
-//-delete
-
-// function addprivateroom() {
-//     //【プライベートチャンネル】部屋作った人にだけ部屋ボタンが追加される・部屋名を相手に教えることで実質招待
-//     let textbox = document.getElementById("privateroomtext");
-//     let inputValue = textbox.value;
-//     textbox.value = "";
-//     $(".channel_list").prepend(
-//         `<button id="bt" >#${inputValue}</button><br>`
-//     );
-//     $("#bt").click(inputValue, function (e) {
-//         moveToRoom(inputValue);
-//     });
-//     $("#Channel").append(`<option>#${inputValue}</option>`);
-// }
-
-//?
-
-// function addroom() {
-//     //【公開チャンネル】全ユーザーに部屋ボタンが追加される
-//     let textbox = document.getElementById("roomtext");
-//     let inputValue = textbox.value;
-//     socket.emit("add channel", inputValue);
-//     textbox.value = "";
-//     $(".channel_list").prepend(
-//         `<button id="bt" >#${inputValue}</button><br>`
-//     );
-//     $("#bt").click(inputValue, function (e) {
-//         moveToRoom(inputValue);
-//     });
-//     $("#Channel").append(`<option>#${inputValue}</option>`);
-// }
-
 function addDMroom() {
     //【DM】受信者と送信者にのみDMボタンが追加される
     let receiver = document.getElementById("DMtext");
@@ -80,13 +47,13 @@ let music = new Audio("./sound.mp3");
 if (!(hash == '#approval' + name1) && name1 === '') {
 
     alert('ログインをやり直してください')
-    location.replace(location.protocol+"//"+location.host+'/login');
+    location.replace(location.protocol + "//" + location.host + '/login');
 }
 $("#User").append($("<option>").html("@" + name1));
 
 let onlineUsers = [];
 
-console.log(location.protocol+"//"+location.host+" @sample ");
+console.log(location.protocol + "//" + location.host + " @sample ");
 
 
 form.addEventListener("submit", (e) => {
@@ -96,20 +63,7 @@ form.addEventListener("submit", (e) => {
         input.value = "";
     }
 });
-//-delete
 
-// socket.on("chat message", (msg) => {
-//     //appendMessage(msg);
-// });
-// socket.on("restore message", (message, name2, time) => {
-//     //部屋移動先メッセ復元
-//     if (name1 == name2) {
-//         // restoreMessage(message, time);
-//         //とりあえずコメントアウト
-
-//     }
-//     name2 = "";
-// });
 
 socket.on("connect", () => {
     socket.emit("setUserName", name1);
@@ -125,25 +79,6 @@ socket.on("show_online", (users) => {
         onlineUsers.push(users[id]);
     }
 });
-//-delete
-
-// socket.on("image", (imageData) => {
-//     if (imageData) {
-//         var canvas = document.createElement("canvas");
-//         var ctx = canvas.getContext("2d");
-//         var img = new Image();
-//         img.src = imageData;
-//         img.onload = function () {
-//             canvas.width = img.width;
-//             canvas.height = img.height;
-//             ctx.drawImage(img, 0, 0);
-//             //document.body.appendChild(canvas);
-
-//             $("li:last").append("<li>dummy</li>");
-//             $("li:last").html("<img src= " + imageData + ">");
-//         };
-//     }
-// });
 
 //アップロードを許可する拡張子
 //jpg jpeg png gif をimgタグで表示するため拡張子判定を行う
@@ -347,56 +282,6 @@ const appendStamp = (appendElement, updateTarget) => {// スタンプログ追�
 }
 
 
-//使ってない
-//-delete
-// const restoreMessage = (message, timestamp) => {
-//     //部屋移動したとき復元
-//     var time = timestamp.slice(5, -3);
-//     let n = 0;
-//     const item = document.createElement("li");
-//     item.className = "msglist";
-//     item.onmouseover = function () {
-//         if (n == 0) {
-//             item.innerHTML += `<button type="button" id="button_1" onclick="sendStamp(1)">👍</button>`;
-//             item.innerHTML += `<button type="button" id="button_2" onclick="sendStamp(2)">👎</button>`;
-//             item.innerHTML += `<button type="button" id="button_3" onclick="sendStamp(3)">💓</button>`;
-//             item.innerHTML += `<button type="button" id="button_4" onclick="sendStamp(4)">🌟</button>`;
-//         }
-//         n = 1;
-//     };
-//     item.textContent = message + time;
-//     messages.appendChild(item);
-//     window.scrollTo(0, document.body.scrollHeight);
-// };
-//tuika
-
-// socket.on("start typing", (nowTypingUser) => {
-//     typingAlert.innerHTML += `${nowTypingUser}入力中`;
-// });
-
-// socket.on("stop typing", () => {
-//     typingAlert.innerHTML = "";
-// });
-
-// socket.on("ch create", (ch) => {
-//     $(".channel_list").prepend(`<button id="bt" >#${ch}</button><br>`);
-//     $("#bt").click(ch, function (e) {
-//         moveToRoom(ch);
-//     });
-// });
-
-//-delete
-// socket.on("DM create", (dm, receiver_1, sender_1) => {
-//     if (name1 == receiver_1 || name1 == sender_1) {
-//         $(".DM_list").prepend(`<button id="bt_dm" >📩${dm}</button><br>`);
-//         $("#bt_dm").click(dm, function (e) {
-//             moveToRoom(dm);
-//         });
-//     }
-// });
-// input.addEventListener("input", (e) => {
-//     socket.emit("start typing");
-// });
 
 function moveToRoom(roomname) {
     //部屋移動
@@ -408,30 +293,11 @@ function moveToRoom(roomname) {
     socket.emit("setRoomName", roomname, name);
 }
 
-//
-//-delete
-// function sendStamp(n, key) {
-//     socket.emit("send stamp", n);
 
-
-//     console.log(key);
-// }
 
 const file = document.getElementById("file");
 
-// file.addEventListener("change", sendImage, false);
 
-//日付表示
-// var today = new Date();
-// let x = 0;
-// var month = today.getMonth() + 1;
-// var week = today.getDay();
-// var day = today.getDate();
-
-// var week_ja = new Array("日", "月", "火", "水", "木", "金", "土");
-
-// let datetext = month + "月" + day + "日 " + "(" + week_ja[week] + ")";
-// $("#date").text(datetext);
 //textareaコピーボタン
 function cp() {
     let txt = document.getElementById("copy");
